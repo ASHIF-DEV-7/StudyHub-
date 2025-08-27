@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSE Class 10 Science Notes</title>
+    <!-- Sirf ye code copy karke kisi bhi HTML page mein paste kar dein -->
+
+<style>
+.back-cross-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 15px rgba(255, 107, 107, 0.4);
+    transition: all 0.3s ease;
+}
+
+.back-cross-btn:hover {
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    transform: scale(1.15);
+    box-shadow: 0 5px 20px rgba(255, 23, 68, 0.6);
+}
+
+.back-cross-btn:active {
+    transform: scale(0.95);
+}
+
+.back-cross-btn::before,
+.back-cross-btn::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.back-cross-btn::before {
+    transform: rotate(45deg);
+}
+
+.back-cross-btn::after {
+    transform: rotate(-45deg);
+}
+</style>
+
+<button class="back-cross-btn" onclick="goBack()" title="Go Back"></button>
+
+<script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = '/';
+    }
+}
+</script>
+    <style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 3rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .subject-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--accent-color);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .subject-box:hover::before {
+            transform: translateX(0);
+        }
+
+        .subject-box:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+
+        .biology { --accent-color: linear-gradient(135deg, #11998e, #38ef7d); }
+        .chemistry { --accent-color: linear-gradient(135deg, #fc466b, #3f5efb); }
+        .physics { --accent-color: linear-gradient(135deg, #fdbb2d, #22c1c3); }
+
+        .subject-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: var(--accent-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .subject-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 3rem;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .chapters-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .chapter {
+            background: rgba(255,255,255,0.7);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .chapter:hover::before {
+            left: 100%;
+        }
+
+        .chapter:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .chapter a {
+            text-decoration: none;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chapter-number {
+            background: var(--accent-color);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .chapter-title {
+            flex: 1;
+        }
+
+        .chapter-arrow {
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+
+        .chapter:hover .chapter-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3.5rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px);
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+            font-size: 2rem;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            to {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .subject-box {
+                padding: 1.5rem;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+    </style>
+    <style>
+/* Page Load Animation */
+body {
+    animation: pageLoad 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes pageLoad {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Link Click Effects */
+a {
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    transform: translateY(-1px);
+}
+
+a:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Button Click Effects */
+button {
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Fade out effect on page leave */
+body.fade-out {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+</style>
+
+<script>
+// Smooth page transitions
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle all internal links
+    const links = document.querySelectorAll('a[href$=".html"], a[href*=".html"]');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Skip if external link or has target="_blank"
+            if (this.target === '_blank' || href.startsWith('http') || href.startsWith('mailto')) {
+                return;
+            }
+            
+            e.preventDefault();
+            
+            // Add fade out class
+            document.body.classList.add('fade-out');
+            
+            // Navigate after animation
+            setTimeout(() => {
+                window.location.href = href;
+            }, 200);
+        });
+    });
+    
+    // Handle back/forward buttons
+    window.addEventListener('pageshow', function(e) {
+        document.body.classList.remove('fade-out');
+    });
+});
+</script>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="floating-elements">
+        <div class="floating-element" style="left: 10%; animation-delay: 0s;">⚛️</div>
+        <div class="floating-element" style="left: 20%; animation-delay: 3s;">🧬</div>
+        <div class="floating-element" style="left: 30%; animation-delay: 6s;">⚗️</div>
+        <div class="floating-element" style="left: 40%; animation-delay: 9s;">🔬</div>
+        <div class="floating-element" style="left: 50%; animation-delay: 12s;">🧪</div>
+        <div class="floating-element" style="left: 60%; animation-delay: 15s;">⚡</div>
+        <div class="floating-element" style="left: 70%; animation-delay: 18s;">🔍</div>
+        <div class="floating-element" style="left: 80%; animation-delay: 21s;">📐</div>
+    </div>
+
+    <div class="container">
+        <h1>CBSE Class 10 Science Notes</h1>
+        
+        <div class="search-container">
+            <div class="search-icon">🔍</div>
+            <input type="text" class="search-box" placeholder="Search chapters..." id="searchBox">
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Total Chapters</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Subjects</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">CBSE Aligned</div>
+            </div>
+        </div>
+
+        <div class="subjects-grid">
+            <!-- Biology Section -->
+            <div class="subject-box biology">
+                <div class="subject-icon">🧬</div>
+                <div class="subject-title">Biology</div>
+                <div class="chapters-container">
+                    <div class="chapter">
+                        <a href="bione.html">
+                            <div class="chapter-number">5</div>
+                            <div class="chapter-title">Life Processes</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="cc.html">
+                            <div class="chapter-number">6</div>
+                            <div class="chapter-title">Control and Coordination</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="repro.html">
+                            <div class="chapter-number">7</div>
+                            <div class="chapter-title">How do Organisms Reproduce?</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="here.html">
+                            <div class="chapter-number">8</div>
+                            <div class="chapter-title">Heredity</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="ouren.html">
+                            <div class="chapter-number">13</div>
+                            <div class="chapter-title">Our Environment</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chemistry Section -->
+            <div class="subject-box chemistry">
+                <div class="subject-icon">⚗️</div>
+                <div class="subject-title">Chemistry</div>
+                <div class="chapters-container">
+                    <div class="chapter">
+                        <a href="chem01.html">
+                            <div class="chapter-number">1</div>
+                            <div class="chapter-title">Chemical Reactions and Equations</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="acid.html">
+                            <div class="chapter-number">2</div>
+                            <div class="chapter-title">Acids, Bases & Salts</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="metal.html">
+                            <div class="chapter-number">3</div>
+                            <div class="chapter-title">Metals and Non-metals</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="carbon.html">
+                            <div class="chapter-number">4</div>
+                            <div class="chapter-title">Carbon and Its Compounds</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Physics Section -->
+            <div class="subject-box physics">
+                <div class="subject-icon">⚛️</div>
+                <div class="subject-title">Physics</div>
+                <div class="chapters-container">
+                    <div class="chapter">
+                        <a href="lite.html">
+                            <div class="chapter-number">9</div>
+                            <div class="chapter-title">Light, Reflection & Refraction</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="heacw.html">
+                            <div class="chapter-number">10</div>
+                            <div class="chapter-title">The Human Eye & Colourful World</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="elect.html">
+                            <div class="chapter-number">11</div>
+                            <div class="chapter-title">Electricity</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                    <div class="chapter">
+                        <a href="magnet.html">
+                            <div class="chapter-number">12</div>
+                            <div class="chapter-title">Magnetic Effects of Electric Current</div>
+                            <div class="chapter-arrow">→</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        const chapters = document.querySelectorAll('.chapter');
+
+        searchBox.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            chapters.forEach(chapter => {
+                const chapterTitle = chapter.querySelector('.chapter-title').textContent.toLowerCase();
+                const chapterContainer = chapter.closest('.subject-box');
+                
+                if (chapterTitle.includes(searchTerm)) {
+                    chapter.style.display = 'block';
+                    chapter.style.animation = 'fadeInUp 0.5s ease';
+                } else {
+                    chapter.style.display = 'none';
+                }
+            });
+
+            // Hide subject boxes if no chapters match
+            document.querySelectorAll('.subject-box').forEach(box => {
+                const visibleChapters = box.querySelectorAll('.chapter[style*="block"]');
+                if (visibleChapters.length === 0 && searchTerm !== '') {
+                    box.style.opacity = '0.3';
+                    box.style.transform = 'scale(0.95)';
+                } else {
+                    box.style.opacity = '1';
+                    box.style.transform = 'scale(1)';
+                }
+            });
+        });
+
+        // Progress bar on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.pageYOffset / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Add entrance animations to subject boxes
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.subject-box').forEach(box => {
+            box.style.opacity = '0';
+            box.style.transform = 'translateY(30px)';
+            observer.observe(box);
+        });
+
+        // Add click sound effect (optional)
+        chapters.forEach(chapter => {
+            chapter.addEventListener('click', () => {
+                chapter.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    chapter.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && e.target !== searchBox) {
+                e.preventDefault();
+                searchBox.focus();
+            }
+        });
+    </script>
+</body>
+<script src="script.js"></script>
+</html>

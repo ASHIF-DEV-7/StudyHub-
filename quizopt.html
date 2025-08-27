@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Zone - Your Gaming Portal</title>
+    <!-- Sirf ye code copy karke kisi bhi HTML page mein paste kar dein -->
+
+<style>
+.back-cross-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 15px rgba(255, 107, 107, 0.4);
+    transition: all 0.3s ease;
+}
+
+.back-cross-btn:hover {
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    transform: scale(1.15);
+    box-shadow: 0 5px 20px rgba(255, 23, 68, 0.6);
+}
+
+.back-cross-btn:active {
+    transform: scale(0.95);
+}
+
+.back-cross-btn::before,
+.back-cross-btn::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.back-cross-btn::before {
+    transform: rotate(45deg);
+}
+
+.back-cross-btn::after {
+    transform: rotate(-45deg);
+}
+</style>
+
+<button class="back-cross-btn" onclick="goBack()" title="Go Back"></button>
+
+<script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = '/';
+    }
+}
+</script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            color: #34495e;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .game-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 25px;
+        }
+        .iq-logo {
+            background: linear-gradient(160deg,#94C6C5);
+        }
+
+        .tic-tac-toe-logo {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+        }
+
+        .quiz-logo {
+            background: linear-gradient(45deg, #00b894, #55efc4);
+        }
+
+        .timer-logo {
+            background: linear-gradient(45deg, #e17055, #fab1a0);
+        }
+
+        .mystery-logo {
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+        }
+
+        .game-title {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .game-description {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(116, 185, 255, 0.3);
+        }
+
+        .play-btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .game-card {
+                padding: 25px;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+    </style>
+    <style>
+/* Page Load Animation */
+body {
+    animation: pageLoad 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes pageLoad {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Link Click Effects */
+a {
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    transform: translateY(-1px);
+}
+
+a:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Button Click Effects */
+button {
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Fade out effect on page leave */
+body.fade-out {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+</style>
+
+<script>
+// Smooth page transitions
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle all internal links
+    const links = document.querySelectorAll('a[href$=".html"], a[href*=".html"]');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Skip if external link or has target="_blank"
+            if (this.target === '_blank' || href.startsWith('http') || href.startsWith('mailto')) {
+                return;
+            }
+            
+            e.preventDefault();
+            
+            // Add fade out class
+            document.body.classList.add('fade-out');
+            
+            // Navigate after animation
+            setTimeout(() => {
+                window.location.href = href;
+            }, 200);
+        });
+    });
+    
+    // Handle back/forward buttons
+    window.addEventListener('pageshow', function(e) {
+        document.body.classList.remove('fade-out');
+    });
+});
+</script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GAME ZONE</h1>
+            <p class="subtitle">Choose your adventure and start playing</p>
+        </header>
+
+        <div class="games-grid">
+            <!-- Tic Tac Toe Game -->
+            <div class="game-card">
+                <div class="game-logo tic-tac-toe-logo">
+                    ⚡
+                </div>
+                <h2 class="game-title">TIC TAC TOE</h2>
+                <p class="game-description">Classic strategy game where you need to get three in a row. Challenge your mind!</p>
+                <a href="tictac.html" class="play-btn">PLAY NOW</a>
+            </div>
+
+            <!-- Quiz Game -->
+            <div class="game-card">
+                <div class="game-logo quiz-logo">
+                    ⚛️
+                </div>
+                <h2 class="game-title">QUIZ PHYSICS</h2>
+                <p class="game-description">Test your knowledge with challenging physics questions. Learn while you play!</p>
+                <a href="phyquiz.html" class="play-btn">PLAY NOW</a>
+            </div>
+
+            <!-- Timer Game -->
+            <div class="game-card">
+                <div class="game-logo timer-logo">
+                    ⏱️
+                </div>
+                <h2 class="game-title">TIMER CHALLENGE</h2>
+                <p class="game-description">Race against time in this exciting challenge. How fast can you be?</p>
+                <a href="timer.html" class="play-btn">PLAY NOW</a>
+            </div>
+     <!--Iq tester -->
+      <div class="game-card">
+                <div class="game-logo iq-logo">
+                    🧠
+                </div>
+                <h2 class="game-title">Iq Meter</h2>
+                <p class="game-description">check your iq by completing this game and for apropriate iq select your own age after the quetsions</p>
+                <a href="iq.html" class="play-btn">Let's See</a>
+            </div>
+
+
+            <!-- Mystery Game -->
+            <div class="game-card">
+                <div class="game-logo mystery-logo">
+                    🎮
+                </div>
+                <h2 class="game-title"> Chem / Bio</h2>
+                <p class="game-description">check your revision by playing the quiz game based on the syllabus of biology and chemustry</p>
+                <a href="test.html" class="play-btn">Let's Go 🔥</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Game Zone - Built for endless fun</p>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>

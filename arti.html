@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science AI - Class 10 CBSE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f0f23;
+            color: #d1d5db;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .main-container {
+            display: flex;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1a2e;
+        }
+        
+        .sidebar {
+            width: 260px;
+            background: #16213e;
+            border-right: 1px solid #2d3748;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 10px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #6b7280;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-item {
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            color: #d1d5db;
+        }
+        
+        .nav-item:hover {
+            background: #2d3748;
+            color: #fff;
+        }
+        
+        .nav-item.active {
+            background: #667eea;
+            color: #fff;
+        }
+        
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .header-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .floating-orb {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+            animation: floatMove 6s infinite ease-in-out;
+            opacity: 0.8;
+        }
+        
+        @keyframes floatMove {
+            0%, 100% { 
+                transform: translateX(-300px) scale(1);
+                background: linear-gradient(45deg, #667eea, #764ba2);
+            }
+            25% { 
+                transform: translateX(300px) scale(1.1);
+                background: linear-gradient(45deg, #f093fb, #f5576c);
+            }
+            50% { 
+                transform: translateX(300px) scale(1);
+                background: linear-gradient(45deg, #4facfe, #00f2fe);
+            }
+            75% { 
+                transform: translateX(-300px) scale(0.9);
+                background: linear-gradient(45deg, #43e97b, #38f9d7);
+            }
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            max-height: calc(100vh - 120px);
+        }
+        
+        .message {
+            margin: 20px 0;
+            animation: fadeInUp 0.3s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .user-message .message-content {
+            background: #667eea;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 18px 18px 4px 18px;
+            max-width: 70%;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .bot-message {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .bot-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+        
+        .bot-message .message-content {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 16px 20px;
+            border-radius: 18px 18px 18px 4px;
+            max-width: 70%;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .input-area {
+            padding: 20px;
+            border-top: 1px solid #2d3748;
+            background: #1a1a2e;
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+            align-items: flex-end;
+        }
+        
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+        
+        #messageInput {
+            width: 100%;
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 15px;
+            color: #e2e8f0;
+            resize: none;
+            max-height: 120px;
+            min-height: 56px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        #messageInput:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        #messageInput::placeholder {
+            color: #a0aec0;
+        }
+        
+        #sendButton {
+            background: #667eea;
+            border: none;
+            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 18px;
+            color: white;
+        }
+        
+        #sendButton:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+        
+        #sendButton:active {
+            transform: translateY(0);
+        }
+        
+        #sendButton:disabled {
+            background: #4a5568;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .thinking {
+            display: flex;
+            gap: 4px;
+            padding: 8px;
+        }
+        
+        .thinking-dot {
+            width: 6px;
+            height: 6px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: thinking 1.4s infinite ease-in-out;
+        }
+        
+        .thinking-dot:nth-child(1) { animation-delay: -0.32s; }
+        .thinking-dot:nth-child(2) { animation-delay: -0.16s; }
+        .thinking-dot:nth-child(3) { animation-delay: 0s; }
+        
+        @keyframes thinking {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 18px;
+            color: #a0aec0;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+        
+        .suggestions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .suggestion-card {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        
+        .suggestion-card:hover {
+            background: #374151;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .suggestion-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .suggestion-desc {
+            font-size: 14px;
+            color: #a0aec0;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                order: 2;
+                border-right: none;
+                border-top: 1px solid #2d3748;
+                padding: 15px;
+            }
+            
+            .nav-section {
+                display: inline-block;
+                margin-right: 20px;
+                margin-bottom: 10px;
+            }
+            
+            .chat-area {
+                order: 1;
+                height: calc(100vh - 120px);
+            }
+            
+            .suggestions {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-message .message-content,
+            .bot-message .message-content {
+                max-width: 85%;
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🧪</div>
+                <div class="logo-text">Science AI</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Physics</div>
+                <button class="nav-item" onclick="loadTopic('light')">Light - Reflection & Refraction</button>
+                <button class="nav-item" onclick="loadTopic('electricity')">Electricity</button>
+                <button class="nav-item" onclick="loadTopic('magnetic')">Magnetic Effects</button>
+                <button class="nav-item" onclick="loadTopic('energy')">Sources of Energy</button>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Chemistry</div>
+                <button class="nav-item" onclick="loadTopic('acids')">Acids, Bases & Salts</button>
+                <button class="nav-item" onclick="loadTopic('metals')">Metals & Non-metals</button>
+                <button class="nav-item" onclick="loadTopic('carbon')">Carbon & Its Compounds</button>
+                <button class="nav-item" onclick="loadTopic('periodic')">Periodic Classification</button>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Biology</div>
+                <button class="nav-item" onclick="loadTopic('nutrition')">Life Processes - Nutrition</button>
+                <button class="nav-item" onclick="loadTopic('respiration')">Life Processes - Respiration</button>
+                <button class="nav-item" onclick="loadTopic('reproduction')">How Do Organisms Reproduce</button>
+                <button class="nav-item" onclick="loadTopic('heredity')">Heredity & Evolution</button>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Study Help</div>
+                <button class="nav-item" onclick="loadTopic('study-tips')">Study Tips</button>
+                <button class="nav-item" onclick="loadTopic('exam-prep')">Exam Preparation</button>
+            </div>
+        </div>
+        
+        <div class="chat-area">
+            <div class="header-animation" id="headerAnimation">
+                <div class="floating-orb"></div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-screen" id="welcomeScreen">
+                    <h1 class="welcome-title">Science AI Assistant</h1>
+                    <p class="welcome-subtitle">
+                        Your intelligent companion for Class 10 CBSE Science. Ask me anything about Physics, Chemistry, Biology, or get study tips to excel in your exams.
+                    </p>
+                    
+                    <div class="suggestions">
+                        <div class="suggestion-card" onclick="askQuestion('Explain the laws of reflection of light with examples')">
+                            <div class="suggestion-title">📚 Physics Concepts</div>
+                            <div class="suggestion-desc">Learn about reflection, refraction, electricity, and magnetic effects</div>
+                        </div>
+                        <div class="suggestion-card" onclick="askQuestion('What are acids and bases? Explain with examples')">
+                            <div class="suggestion-title">🧪 Chemistry Basics</div>
+                            <div class="suggestion-desc">Understand acids, bases, metals, carbon compounds, and periodic table</div>
+                        </div>
+                        <div class="suggestion-card" onclick="askQuestion('How does photosynthesis work in plants?')">
+                            <div class="suggestion-title">🌱 Biology Processes</div>
+                            <div class="suggestion-desc">Explore nutrition, respiration, reproduction, and heredity</div>
+                        </div>
+                        <div class="suggestion-card" onclick="askQuestion('Give me effective study tips for science exam preparation')">
+                            <div class="suggestion-title">📖 Study Tips</div>
+                            <div class="suggestion-desc">Get proven strategies for better learning and exam success</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea id="messageInput" placeholder="Ask me anything about Class 10 Science..." onkeydown="handleKeyDown(event)" oninput="adjustHeight(this)"></textarea>
+                    </div>
+                    <button id="sendButton" onclick="sendMessage()">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isProcessing = false;
+        let conversationStarted = false;
+        
+        // Hide animation when conversation starts
+        function hideWelcomeScreen() {
+            if (!conversationStarted) {
+                document.getElementById('welcomeScreen').style.display = 'none';
+                document.getElementById('headerAnimation').style.display = 'none';
+                conversationStarted = true;
+            }
+        }
+        
+        // Auto-resize textarea
+        function adjustHeight(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+        
+        // Handle keyboard shortcuts
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        // Quick question from suggestions
+        function askQuestion(question) {
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+        
+        // Load topic content
+        function loadTopic(topic) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            event.target.classList.add('active');
+            
+            // Load topic content
+            const topicQuestions = {
+                'light': 'Explain the laws of reflection and refraction of light with diagrams and examples',
+                'electricity': 'Explain electric current, potential difference, and Ohm\'s law with practical applications',
+                'magnetic': 'Describe magnetic effects of electric current and electromagnetic induction',
+                'energy': 'Explain different sources of energy - renewable and non-renewable with advantages',
+                'acids': 'What are acids, bases and salts? Explain their properties and uses with examples',
+                'metals': 'Compare properties of metals and non-metals with extraction processes',
+                'carbon': 'Explain carbon and its compounds including hydrocarbons and their derivatives',
+                'periodic': 'Describe Mendeleev\'s periodic table and modern periodic classification',
+                'nutrition': 'How do organisms obtain nutrition? Explain photosynthesis and human digestive system',
+                'respiration': 'Describe cellular respiration and human respiratory system with gas exchange',
+                'reproduction': 'How do organisms reproduce? Explain sexual and asexual reproduction methods',
+                'heredity': 'Explain heredity, variation and evolution with Mendel\'s laws of inheritance',
+                'study-tips': 'Give me comprehensive study tips and strategies for Class 10 Science exam preparation',
+                'exam-prep': 'How should I prepare for Class 10 Science board exams? Give me a study plan'
+            };
+            
+            if (topicQuestions[topic]) {
+                document.getElementById('messageInput').value = topicQuestions[topic];
+                sendMessage();
+            }
+        }
+        
+        // Main message sending function
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message || isProcessing) return;
+            
+            isProcessing = true;
+            hideWelcomeScreen();
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            adjustHeight(input);
+            
+            // Show thinking animation
+            showThinking();
+            
+            // Process and respond
+            setTimeout(() => {
+                const response = getResponse(message);
+                removeThinking();
+                addMessage(response, 'bot');
+                isProcessing = false;
+            }, 1500 + Math.random() * 1000); // Random delay for realism
+        }
+        
+        // Add message to chat
+       function addMessage(content, type) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = `<div class="message-content">${content}</div>`;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="bot-avatar">🤖</div>
+                    <div class="message-content">${content}</div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Show thinking animation
+        function showThinking() {
+            const chatMessages = document.getElementById('chatMessages');
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.className = 'message bot-message';
+            thinkingDiv.id = 'thinking';
+            thinkingDiv.innerHTML = `
+                <div class="bot-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="thinking">
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(thinkingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Remove thinking animation
+        function removeThinking() {
+            const thinking = document.getElementById('thinking');
+            if (thinking) thinking.remove();
+        }
+        
+        // Comprehensive Science Database
+        const scienceDatabase = {
+            // PHYSICS
+            light: {
+                title: "Light - Reflection and Refraction",
+                content: `<h3>🔬 Light - Reflection and Refraction</h3>
+                
+<h4>1. Nature of Light</h4>
+• Light is a form of electromagnetic radiation that enables us to see objects
+• It travels in straight lines at a speed of 3×10⁸ m/s in vacuum
+• Light exhibits both wave and particle properties (wave-particle duality)
+
+<h4>2. Laws of Reflection</h4>
+<strong>First Law:</strong> The incident ray, reflected ray, and normal at the point of incidence all lie in the same plane
+<strong>Second Law:</strong> The angle of incidence equals the angle of reflection (∠i = ∠r)
+
+<h4>3. Types of Reflection</h4>
+• <strong>Regular Reflection:</strong> Occurs on smooth surfaces like mirrors
+• <strong>Irregular/Diffuse Reflection:</strong> Occurs on rough surfaces
+
+<h4>4. Spherical Mirrors</h4>
+<strong>Concave Mirror (Converging):</strong>
+• Focal length: f = R/2 (where R is radius of curvature)
+• Mirror formula: 1/f = 1/v + 1/u
+• Magnification: m = -v/u = h'/h
+• Uses: Shaving mirrors, headlights, solar concentrators
+
+<strong>Convex Mirror (Diverging):</strong>
+• Always forms virtual, erect, and diminished images
+• Uses: Rear-view mirrors, street lights, security mirrors
+
+<h4>5. Refraction of Light</h4>
+• Bending of light when it passes from one medium to another
+• <strong>Snell's Law:</strong> n₁sin(θ₁) = n₂sin(θ₂)
+• <strong>Refractive Index:</strong> n = c/v = sin(i)/sin(r)
+
+<h4>6. Lenses</h4>
+<strong>Convex Lens (Converging):</strong>
+• Lens formula: 1/f = 1/v - 1/u
+• Power: P = 1/f (in meters), measured in diopters
+• Uses: Magnifying glass, camera, human eye
+
+<strong>Concave Lens (Diverging):</strong>
+• Always forms virtual, erect, and diminished images
+• Uses: Correcting myopia (short-sightedness)
+
+<h4>7. Human Eye</h4>
+• Parts: Cornea, Iris, Pupil, Lens, Retina, Optic nerve
+• <strong>Accommodation:</strong> Ability to focus on objects at different distances
+• <strong>Near point:</strong> 25 cm, <strong>Far point:</strong> Infinity
+
+<h4>8. Eye Defects and Corrections</h4>
+• <strong>Myopia:</strong> Corrected by concave lens
+• <strong>Hypermetropia:</strong> Corrected by convex lens
+• <strong>Presbyopia:</strong> Corrected by bifocal lens
+
+<h4>9. Dispersion</h4>
+• Splitting of white light into constituent colors
+• VIBGYOR: Violet, Indigo, Blue, Green, Yellow, Orange, Red
+• Rainbow formation due to dispersion in water droplets`
+            },
+            
+            electricity: {
+                title: "Electricity",
+                content: `<h3>⚡ Electricity</h3>
+
+<h4>1. Electric Current</h4>
+• Flow of electric charge through a conductor
+• <strong>Formula:</strong> I = Q/t (Current = Charge/Time)
+• <strong>Unit:</strong> Ampere (A)
+• <strong>Direction:</strong> Conventional current flows from positive to negative
+
+<h4>2. Electric Potential and Potential Difference</h4>
+• <strong>Electric Potential:</strong> Work done per unit charge
+• <strong>Potential Difference:</strong> V = W/Q
+• <strong>Unit:</strong> Volt (V)
+
+<h4>3. Ohm's Law</h4>
+• <strong>Statement:</strong> Current through a conductor is directly proportional to potential difference
+• <strong>Formula:</strong> V = IR
+• <strong>Resistance:</strong> R = ρl/A (where ρ = resistivity, l = length, A = area)
+• <strong>Unit of Resistance:</strong> Ohm (Ω)
+
+<h4>4. Factors Affecting Resistance</h4>
+• Length of conductor (R ∝ l)
+• Cross-sectional area (R ∝ 1/A)
+• Nature of material (resistivity)
+• Temperature
+
+<h4>5. Resistors in Circuits</h4>
+<strong>Series Connection:</strong>
+• Total resistance: R = R₁ + R₂ + R₃ + ...
+• Same current flows through all resistors
+• Voltage divides among resistors
+
+<strong>Parallel Connection:</strong>
+• Total resistance: 1/R = 1/R₁ + 1/R₂ + 1/R₃ + ...
+• Same voltage across all resistors
+• Current divides among resistors
+
+<h4>6. Electric Power</h4>
+• <strong>Power:</strong> P = VI = I²R = V²/R
+• <strong>Unit:</strong> Watt (W)
+• <strong>Energy:</strong> E = Pt = VIt
+• <strong>Commercial Unit:</strong> kWh (kilowatt hour)
+
+<h4>7. Heating Effect of Current</h4>
+• <strong>Joule's Law:</strong> H = I²Rt
+• Applications: Electric heater, electric iron, incandescent bulbs
+• Electric fuse works on this principle
+
+<h4>8. Magnetic Effects of Current</h4>
+• Moving charges create magnetic field
+• <strong>Right-hand rule:</strong> Thumb shows current direction, fingers show magnetic field
+• <strong>Fleming's Left-hand Rule:</strong> For direction of force on conductor
+• <strong>Fleming's Right-hand Rule:</strong> For direction of induced current
+
+<h4>9. Electromagnetic Induction</h4>
+• <strong>Faraday's Law:</strong> Changing magnetic field induces EMF
+• <strong>Lenz's Law:</strong> Direction of induced current opposes the change
+• Applications: Electric generator, transformer, induction motor`
+            },
+
+            acids: {
+                title: "Acids, Bases and Salts",
+                content: `<h3>🧪 Acids, Bases and Salts</h3>
+
+<h4>1. Introduction</h4>
+• <strong>Acids:</strong> Substances that release H⁺ ions in aqueous solution
+• <strong>Bases:</strong> Substances that release OH⁻ ions in aqueous solution
+• <strong>Salts:</strong> Products formed when acids react with bases
+
+<h4>2. Properties of Acids</h4>
+• Sour in taste
+• Turn blue litmus paper red
+• Conduct electricity (electrolytes)
+• pH < 7
+• React with metals to produce hydrogen gas
+• React with carbonates to produce CO₂
+
+<strong>Common Acids:</strong>
+• HCl (Hydrochloric acid) - Stomach acid
+• H₂SO₄ (Sulphuric acid) - Car batteries
+• HNO₃ (Nitric acid) - Fertilizers
+• CH₃COOH (Acetic acid) - Vinegar
+• C₆H₈O₇ (Citric acid) - Citrus fruits
+
+<h4>3. Properties of Bases</h4>
+• Bitter in taste
+• Slippery to touch
+• Turn red litmus paper blue
+• pH > 7
+• Conduct electricity
+
+<strong>Common Bases:</strong>
+• NaOH (Sodium hydroxide) - Soap making
+• KOH (Potassium hydroxide) - Detergents
+• Ca(OH)₂ (Calcium hydroxide) - Lime water
+• NH₄OH (Ammonium hydroxide) - Cleaning agent
+• Mg(OH)₂ (Magnesium hydroxide) - Antacid
+
+<h4>4. pH Scale</h4>
+• Measures hydrogen ion concentration
+• Scale: 0-14
+• pH < 7: Acidic
+• pH = 7: Neutral
+• pH > 7: Basic
+• <strong>Formula:</strong> pH = -log[H⁺]
+
+<h4>5. Indicators</h4>
+<strong>Natural Indicators:</strong>
+• Litmus (from lichens)
+• Turmeric
+• Red cabbage
+• China rose petals
+
+<strong>Synthetic Indicators:</strong>
+• Methyl orange
+• Phenolphthalein
+
+<h4>6. Important Reactions</h4>
+<strong>Neutralization:</strong>
+Acid + Base → Salt + Water
+HCl + NaOH → NaCl + H₂O
+
+<strong>Acid + Metal:</strong>
+Acid + Metal → Salt + Hydrogen
+2HCl + Zn → ZnCl₂ + H₂
+
+<strong>Acid + Metal Carbonate:</strong>
+Acid + Carbonate → Salt + Water + CO₂
+2HCl + CaCO₃ → CaCl₂ + H₂O + CO₂
+
+<h4>7. Salts</h4>
+<strong>Types:</strong>
+• Normal salts: NaCl, KBr
+• Acidic salts: NaHSO₄
+• Basic salts: Mg(OH)Cl
+• Double salts: KAl(SO₄)₂.12H₂O
+
+<strong>Preparation Methods:</strong>
+• Direct combination
+• Neutralization
+• Displacement
+• Double decomposition
+
+<h4>8. Water of Crystallization</h4>
+• Fixed number of water molecules in crystal structure
+• Examples: CuSO₄.5H₂O, Na₂CO₃.10H₂O
+
+<h4>9. Important Compounds</h4>
+<strong>Sodium Chloride (NaCl):</strong>
+• Common salt
+• Obtained from sea water
+• Used in food preservation
+
+<strong>Sodium Carbonate (Na₂CO₃):</strong>
+• Washing soda
+• Used in glass, soap, and paper industries
+
+<strong>Sodium Hydrogencarbonate (NaHCO₃):</strong>
+• Baking soda
+• Used in baking, antacid, fire extinguisher
+
+<strong>Calcium Hydroxide Ca(OH)₂:</strong>
+• Lime water
+• Used in whitewashing, neutralizing acidic soil`
+            },
+
+            carbon: {
+                title: "Carbon and its Compounds",
+                content: `<h3>⚛️ Carbon and its Compounds</h3>
+
+<h4>1. Introduction to Carbon</h4>
+• Atomic number: 6
+• Electronic configuration: 2, 4
+• Tetravalent (valency = 4)
+• Forms covalent bonds
+• Shows catenation (self-linking property)
+
+<h4>2. Allotropes of Carbon</h4>
+<strong>Crystalline Forms:</strong>
+• <strong>Diamond:</strong> Hardest substance, electrical insulator, 3D network
+• <strong>Graphite:</strong> Soft, conductor, layers of hexagonal rings
+• <strong>Fullerenes:</strong> C₆₀, football-like structure
+
+<strong>Amorphous Forms:</strong>
+• Coal, coke, charcoal, carbon black
+
+<h4>3. Bonding in Carbon</h4>
+• Forms single, double, and triple bonds
+• <strong>Single bond:</strong> C-C (alkanes)
+• <strong>Double bond:</strong> C=C (alkenes)
+• <strong>Triple bond:</strong> C≡C (alkynes)
+
+<h4>4. Hydrocarbons</h4>
+<strong>Saturated Hydrocarbons (Alkanes):</strong>
+• General formula: CₙH₂ₙ₊₂
+• Examples: Methane (CH₄), Ethane (C₂H₆), Propane (C₃H₈)
+• Show substitution reactions
+
+<strong>Unsaturated Hydrocarbons:</strong>
+• <strong>Alkenes:</strong> CₙH₂ₙ (Ethene: C₂H₄)
+• <strong>Alkynes:</strong> CₙH₂ₙ₋₂ (Ethyne: C₂H₂)
+• Show addition reactions
+
+<h4>5. Functional Groups</h4>
+• <strong>Alcohol:</strong> -OH (Hydroxyl)
+• <strong>Aldehyde:</strong> -CHO (Carbonyl)
+• <strong>Ketone:</strong> -CO- (Carbonyl)
+• <strong>Carboxylic acid:</strong> -COOH (Carboxyl)
+• <strong>Ester:</strong> -COO- (Ester linkage)
+
+<h4>6. Homologous Series</h4>
+• Series of compounds with same functional group
+• Successive members differ by -CH₂ unit
+• Similar chemical properties
+• Gradual change in physical properties
+
+<h4>7. Nomenclature</h4>
+<strong>IUPAC System:</strong>
+• Identify longest carbon chain
+• Number to give lowest numbers to functional groups
+• Name substituents alphabetically
+
+<h4>8. Important Carbon Compounds</h4>
+
+<strong>Ethanol (C₂H₅OH):</strong>
+• Preparation: Fermentation of sugars
+• Properties: Colorless liquid, miscible with water
+• Uses: Beverages, fuel, antiseptic
+
+<strong>Ethanoic Acid (CH₃COOH):</strong>
+• Common name: Acetic acid
+• Found in vinegar (5-8% solution)
+• Properties: Sour taste, corrosive
+• Uses: Food preservative, manufacturing
+
+<h4>9. Chemical Reactions</h4>
+
+<strong>Combustion:</strong>
+CH₄ + 2O₂ → CO₂ + 2H₂O + Energy
+
+<strong>Substitution (Alkanes):</strong>
+CH₄ + Cl₂ → CH₃Cl + HCl (in sunlight)
+
+<strong>Addition (Alkenes):</strong>
+C₂H₄ + H₂ → C₂H₆ (with Ni catalyst)
+C₂H₄ + Br₂ → C₂H₄Br₂
+
+<strong>Oxidation:</strong>
+C₂H₅OH + [O] → CH₃COOH + H₂O (with KMnO₄)
+
+<strong>Esterification:</strong>
+CH₃COOH + C₂H₅OH → CH₃COOC₂H₅ + H₂O
+
+<h4>10. Soaps and Detergents</h4>
+<strong>Soaps:</strong>
+• Sodium or potassium salts of long chain fatty acids
+• Made by saponification: Fat + NaOH → Soap + Glycerol
+• Work poorly in hard water
+
+<strong>Detergents:</strong>
+• Sodium salts of long chain benzene sulphonic acids
+• Work well in hard water
+• More effective than soaps
+
+<h4>11. Cleansing Action</h4>
+• Soap molecules have hydrophilic head and hydrophobic tail
+• Form micelles in water
+• Dirt gets trapped in micelle core and is washed away`
+            },
+
+            nutrition: {
+                title: "Life Processes - Nutrition",
+                content: `<h3>🌱 Life Processes - Nutrition</h3>
+
+<h4>1. Introduction to Life Processes</h4>
+• Processes essential for maintaining life
+• Include: Nutrition, Respiration, Transportation, Excretion
+• Help in growth, maintenance, and reproduction
+
+<h4>2. Nutrition</h4>
+• Process of obtaining and utilizing food for energy and growth
+• <strong>Nutrients:</strong> Carbohydrates, proteins, fats, vitamins, minerals, water
+
+<h4>3. Types of Nutrition</h4>
+
+<strong>Autotrophic Nutrition:</strong>
+• Organisms make their own food
+• Examples: Plants, some bacteria, algae
+• <strong>Photosynthesis:</strong> Light energy → Chemical energy
+• <strong>Chemosynthesis:</strong> Chemical energy from inorganic substances
+
+<strong>Heterotrophic Nutrition:</strong>
+• Depend on other organisms for food
+• Types:
+  - <strong>Holozoic:</strong> Ingestion → Digestion → Absorption → Egestion (Animals)
+  - <strong>Saprophytic:</strong> Decompose dead organic matter (Fungi, bacteria)
+  - <strong>Parasitic:</strong> Live on/in other organisms (Tapeworm, Plasmodium)
+
+<h4>4. Photosynthesis</h4>
+
+<strong>Process:</strong>
+6CO₂ + 6H₂O + Light energy → C₆H₁₂O₆ + 6O₂ (in presence of chlorophyll)
+
+<strong>Requirements:</strong>
+• Sunlight
+• Carbon dioxide (from atmosphere)
+• Water (from roots)
+• Chlorophyll (green pigment)
+
+<strong>Steps:</strong>
+1. <strong>Light Reaction:</strong> Occurs in thylakoids
+   - Light energy splits water (photolysis)
+   - ATP and NADPH produced
+   - Oxygen released
+
+2. <strong>Dark Reaction (Calvin Cycle):</strong> Occurs in stroma
+   - CO₂ fixed into glucose
+   - Uses ATP and NADPH from light reaction
+
+<strong>Factors Affecting Photosynthesis:</strong>
+• Light intensity
+• CO₂ concentration
+• Temperature
+• Water availability
+• Chlorophyll content
+
+<h4>5. Human Digestive System</h4>
+
+<strong>Alimentary Canal:</strong>
+• <strong>Mouth:</strong> Mechanical breakdown, salivary amylase
+• <strong>Oesophagus:</strong> Transport food via peristalsis
+• <strong>Stomach:</strong> HCl kills bacteria, pepsin digests proteins
+• <strong>Small intestine:</strong> Complete digestion and absorption
+• <strong>Large intestine:</strong> Water absorption, feces formation
+
+<strong>Digestive Glands:</strong>
+• <strong>Salivary glands:</strong> Produce saliva (ptyalin enzyme)
+• <strong>Liver:</strong> Produces bile (emulsifies fats)
+• <strong>Pancreas:</strong> Produces pancreatic juice (enzymes)
+
+<h4>6. Digestive Enzymes</h4>
+• <strong>Salivary amylase:</strong> Starch → Maltose
+• <strong>Pepsin:</strong> Proteins → Peptones (acidic medium)
+• <strong>Trypsin:</strong> Proteins → Amino acids (alkaline medium)
+• <strong>Lipase:</strong> Fats → Fatty acids + Glycerol
+• <strong>Sucrase, maltase, lactase:</strong> Disaccharides → Monosaccharides
+
+<h4>7. Absorption and Transportation</h4>
+• Small intestine has villi for maximum absorption
+• Amino acids and glucose enter blood capillaries
+• Fatty acids enter lymphatic system
+• Portal circulation carries nutrients to liver
+
+<h4>8. Nutrition in Plants</h4>
+
+<strong>Essential Elements:</strong>
+• <strong>Macronutrients:</strong> N, P, K, Ca, Mg, S
+• <strong>Micronutrients:</strong> Fe, Mn, Zn, Cu, B, Mo
+
+<strong>Deficiency Symptoms:</strong>
+• <strong>Nitrogen:</strong> Yellowing of leaves (chlorosis)
+• <strong>Phosphorus:</strong> Purple/red coloration
+• <strong>Potassium:</strong> Brown edges on leaves
+• <strong>Iron:</strong> Interveinal chlorosis
+
+<h4>9. Transportation in Plants</h4>
+• <strong>Xylem:</strong> Transports water and minerals (root to shoot)
+• <strong>Phloem:</strong> Transports food (source to sink)
+• <strong>Transpiration:</strong> Creates suction for water movement
+
+<h4>10. Nutrition Disorders</h4>
+• <strong>Kwashiorkor:</strong> Protein deficiency
+• <strong>Marasmus:</strong> Calorie deficiency
+• <strong>Scurvy:</strong> Vitamin C deficiency
+• <strong>Rickets:</strong> Vitamin D deficiency
+• <strong>Night blindness:</strong> Vitamin A deficiency`
+            },
+            respiration: {
+                title: "Life Processes - respiration",
+                content: `<h3>🌱 Life Processes - respiration</h3>
+                <h4>6. Control of Respiration</h4>
+<strong>Respiratory Center:</strong>
+• Located in medulla oblongata of brain stem
+• Controls rate and depth of breathing
+• Responds to changes in blood CO₂, O₂, and pH levels
+• Sends signals to diaphragm and intercostal muscles
+• Can be voluntarily controlled to some extent
+
+<strong>Chemical Control:</strong>
+• CO₂ levels most important factor controlling breathing
+• Increased CO₂ stimulates faster, deeper breathing
+• Decreased O₂ (hypoxia) also stimulates breathing
+• pH changes affect respiratory rate
+• Chemoreceptors in carotid and aortic bodies detect changes
+
+<strong>Nervous Control:</strong>
+• Voluntary control from cerebral cortex
+• Involuntary control from medulla oblongata
+• Emotions can affect breathing patterns
+• Pain and temperature changes influence respiration
+• Reflexes protect respiratory system from harmful substances
+
+<h4>7. Respiration in Plants</h4>
+<strong>Plant Respiration Process:</strong>
+• Similar to animals but occurs in all plant parts
+• Takes place in mitochondria of plant cells
+• Continues day and night unlike photosynthesis
+• Uses oxygen and produces CO₂ just like animals
+• Rate varies with temperature, age, and plant part
+
+<strong>Gas Exchange in Plants:</strong>
+• Stomata in leaves: Primary sites for gas exchange
+• Lenticels in stems: Allow gas exchange in woody parts
+• Root hairs: Enable gas exchange in roots
+• Diffusion occurs directly through cell walls and membranes
+• No specialized transport system like animals
+
+<strong>Factors Affecting Plant Respiration:</strong>
+• Temperature: Rate doubles with every 10°C rise (up to optimum)
+• Oxygen concentration: Low O₂ reduces respiration rate
+• Carbon dioxide concentration: High CO₂ inhibits respiration
+• Water content: Adequate water necessary for enzyme activity
+• Age of plant part: Young tissues respire faster
+
+<h4>8. Respiration in Different Organisms</h4>
+<strong>Unicellular Organisms:</strong>
+• Direct diffusion through cell membrane
+• Examples: Amoeba, Paramecium, bacteria
+• Large surface area to volume ratio enables efficient gas exchange
+• No specialized respiratory organs needed
+
+<strong>Insects:</strong>
+• Tracheal system with spiracles and tracheae
+• Air tubes directly deliver oxygen to tissues
+• No respiratory pigments needed
+• Efficient system for small body size
+
+<strong>Fish:</strong>
+• Gills with gill filaments and lamellae
+• Counter-current flow maximizes oxygen extraction
+• Water flows over gills, blood flows opposite direction
+• Dissolved oxygen extracted from water
+
+<strong>Amphibians:</strong>
+• Multiple respiratory surfaces: skin, gills (larvae), lungs
+• Moist skin allows cutaneous respiration
+• Simple lungs with lower efficiency than mammals
+• Dual lifestyle requires multiple adaptations
+
+<h4>9. Respiratory Disorders</h4>
+<strong>Asthma:</strong>
+• Chronic inflammatory condition of airways
+• Bronchioles constrict and produce excess mucus
+• Symptoms: Wheezing, coughing, shortness of breath
+• Triggers: Allergens, exercise, cold air, stress
+• Treatment: Bronchodilators, anti-inflammatory drugs
+
+<strong>Pneumonia:</strong>
+• Infection causing inflammation of alveoli
+• Alveoli fill with pus and fluid
+• Reduces gas exchange efficiency
+• Caused by bacteria, viruses, or fungi
+• Symptoms: Fever, chest pain, difficulty breathing
+
+<strong>Tuberculosis (TB):</strong>
+• Bacterial infection primarily affecting lungs
+• Caused by Mycobacterium tuberculosis
+• Symptoms: Persistent cough, weight loss, night sweats
+• Contagious through airborne droplets
+• Treatment requires long-term antibiotic therapy
+
+<strong>Chronic Obstructive Pulmonary Disease (COPD):</strong>
+• Progressive disease limiting airflow
+• Includes emphysema and chronic bronchitis
+• Main cause: Long-term smoking
+• Symptoms: Chronic cough, mucus production, breathlessness
+• Irreversible but progression can be slowed
+
+<h4>10. Effects of Smoking</h4>
+<strong>Immediate Effects:</strong>
+• Reduced oxygen carrying capacity
+• Increased heart rate and blood pressure
+• Impaired lung function and reduced exercise capacity
+• Increased susceptibility to infections
+• Bad breath and stained teeth
+
+<strong>Long-term Effects:</strong>
+• Lung cancer: Leading cause of cancer deaths
+• COPD development and progression
+• Increased risk of heart disease and stroke
+• Reduced life expectancy by 10-15 years
+• Premature aging of skin and organs
+
+<strong>Components of Tobacco Smoke:</strong>
+• Nicotine: Addictive stimulant affecting nervous system
+• Tar: Contains multiple carcinogenic substances
+• Carbon monoxide: Reduces oxygen transport
+• Formaldehyde: Irritates respiratory passages
+• Over 70 known carcinogens in cigarette smoke
+
+<h4>11. Respiratory Adaptations</h4>
+<strong>High Altitude Adaptations:</strong>
+• Increased red blood cell production
+• Higher hemoglobin concentration
+• Increased lung capacity and breathing rate
+• Enhanced oxygen extraction efficiency
+• Examples: People living in mountains, high-altitude athletes
+
+<strong>Aquatic Adaptations:</strong>
+• Marine mammals: Large lung capacity, efficient oxygen storage
+• Diving birds: High myoglobin content in muscles
+• Fish: Highly efficient gills with counter-current flow
+• Aquatic insects: Air bubbles or specialized breathing tubes
+
+<strong>Exercise Adaptations:</strong>
+• Increased lung capacity and efficiency
+• Stronger respiratory muscles
+• Better oxygen extraction by tissues
+• Improved cardiovascular coordination
+• Faster recovery after intense activity
+
+This completes comprehensive coverage of Respiration chapter with all important processes, mechanisms, and health aspects for Class 10 CBSE Science.`
+            },
+            reproduction: {
+                title: "How Do Organisms Reproduce",
+                content: `<h3>👶 How Do Organisms Reproduce</h3>
+
+<h4>1. Importance of Reproduction</h4>
+• Essential life process ensuring continuity of species
+• Prevents extinction of organisms
+• Maintains genetic diversity in populations
+• Allows adaptation to changing environmental conditions
+• Creates variation necessary for evolution
+• Fundamental characteristic distinguishing living from non-living
+
+<h4>2. Types of Reproduction</h4>
+<strong>Asexual Reproduction:</strong>
+• Involves single parent organism
+• No gamete formation or fertilization
+• Offspring genetically identical to parent (clones)
+• Faster process requiring less energy
+• Common in unicellular organisms and some plants
+• Advantages: Rapid multiplication, no mate required
+
+<strong>Sexual Reproduction:</strong>
+• Involves two parent organisms (usually)
+• Formation and fusion of male and female gametes
+• Offspring show genetic variation
+• Slower process requiring more energy
+• Universal in higher animals and most plants
+• Advantages: Genetic diversity, adaptation to environment
+
+<h4>3. Asexual Reproduction Methods</h4>
+<strong>Binary Fission:</strong>
+• Single cell divides into two identical daughter cells
+• Common in bacteria, amoeba, paramecium
+• Process: DNA replication → Cell elongation → Cytokinesis
+• Can occur every 20 minutes in optimal conditions
+• Results in exponential population growth
+
+<strong>Multiple Fission:</strong>
+• Single cell divides into many daughter cells simultaneously
+• Occurs in malarial parasite (Plasmodium)
+• Parent cell forms multiple nuclei before cytoplasm division
+• Happens under unfavorable conditions
+• Produces large numbers of offspring at once
+
+<strong>Budding:</strong>
+• Small bud develops on parent organism
+• Bud grows and eventually detaches to form new individual
+• Examples: Hydra, yeast, sponges
+• Bud may remain attached forming colonies
+• Common in cnidarians and fungi
+
+<strong>Fragmentation:</strong>
+• Parent organism breaks into fragments
+• Each fragment develops into complete organism
+• Examples: Spirogyra, sea anemones
+• Requires regeneration ability
+• Often followed by regeneration process
+
+<strong>Regeneration:</strong>
+• Ability to regrow lost body parts
+• Can lead to formation of new individuals
+• Examples: Planaria, starfish, lizard tail
+• Stem cells play crucial role
+• Varies from simple healing to complete organism formation
+
+<strong>Vegetative Propagation:</strong>
+• Reproduction using vegetative parts of plants
+• Natural methods: Runners, bulbs, tubers, rhizomes
+• Artificial methods: Cutting, grafting, layering
+• Examples: Potato (tuber), ginger (rhizome), strawberry (runner)
+• Maintains desirable traits in crop plants
+
+<h4>4. Sexual Reproduction in Flowering Plants</h4>
+<strong>Flower Structure:</strong>
+• Sepals: Protective outer whorl, usually green
+• Petals: Colorful whorl for attracting pollinators
+• Stamens: Male reproductive organs (anther + filament)
+• Carpel/Pistil: Female reproductive organ (stigma + style + ovary)
+• Complete flower: Contains all four whorls
+• Incomplete flower: Missing one or more whorls
+
+<strong>Male Reproductive System:</strong>
+• Stamen consists of anther and filament
+• Anther produces pollen grains (male gametes)
+• Pollen contains sperm nuclei and tube nucleus
+• Filament supports and positions anther
+• Dehiscence: Release of mature pollen from anther
+
+<strong>Female Reproductive System:</strong>
+• Pistil consists of stigma, style, and ovary
+• Stigma: Receptive surface for pollen grains
+• Style: Connects stigma to ovary
+• Ovary: Contains ovules (female gametes)
+• Ovules develop into seeds after fertilization
+
+<h4>5. Pollination Process</h4>
+<strong>Self-Pollination:</strong>
+• Transfer of pollen within same flower or same plant
+• Ensures reproduction even without pollinators
+• Maintains parental characteristics
+• Examples: Peas, beans, rice
+• May lead to inbreeding depression over time
+
+<strong>Cross-Pollination:</strong>
+• Transfer of pollen between different plants
+• Increases genetic diversity
+• Requires external agents (pollinators)
+• Examples: Most flowering plants
+• Evolutionarily advantageous for species survival
+
+<strong>Agents of Pollination:</strong>
+• Wind: Light, dry pollen; feathery stigmas (grasses, conifers)
+• Insects: Colorful petals, nectar, fragrance (roses, sunflowers)
+• Water: Rare, occurs in aquatic plants (Vallisneria)
+• Animals: Birds, bats, mammals (specialized flowers)
+
+<h4>6. Fertilization and Seed Development</h4>
+<strong>Double Fertilization:</strong>
+• Unique to flowering plants (angiosperms)
+• One sperm fertilizes egg → Zygote → Embryo
+• Second sperm fertilizes polar nuclei → Endosperm (food storage)
+• Occurs inside embryo sac within ovule
+• Discovery credited to Nawaschin and Guignard
+
+<strong>Seed Formation:</strong>
+• Zygote develops into embryo
+• Endosperm provides nutrition to developing embryo
+• Integuments of ovule become seed coat
+• Ovary wall develops into fruit
+• Seeds contain embryo, endosperm, and seed coat
+
+<strong>Fruit Development:</strong>
+• Ovary develops into fruit after fertilization
+• Protects seeds and aids in dispersal
+• Types: Simple (tomato), aggregate (raspberry), multiple (pineapple)
+• Dispersal methods: Wind, water, animals, explosive mechanisms
+
+<h4>7. Human Reproductive System</h4>
+<strong>Male Reproductive System:</strong>
+• Testes: Produce sperm and testosterone hormone
+• Epididymis: Stores and matures sperm
+• Vas deferens: Transports sperm from testes
+• Seminal vesicles: Produce fluid component of semen
+• Prostate gland: Produces alkaline secretions
+• Penis: Organ for internal fertilization
+• Scrotum: Temperature regulation for testes
+
+<strong>Female Reproductive System:</strong>
+• Ovaries: Produce eggs and hormones (estrogen, progesterone)
+• Fallopian tubes: Transport eggs, site of fertilization
+• Uterus: Site of embryo development during pregnancy
+• Cervix: Connects uterus to vagina
+• Vagina: Birth canal and organ for copulation
+• External genitalia: Protective and sensory functions
+<h4>8. Menstrual Cycle</h4>
+<strong>Phases of Cycle:</strong>
+• Menstrual phase (Days 1-5): Shedding of uterine lining
+• Follicular phase (Days 1-13): FSH stimulates egg development
+• Ovulation (Day 14): LH surge triggers egg release
+• Luteal phase (Days 15-28): Corpus luteum maintains uterine lining
+
+<strong>Hormonal Control:</strong>
+• GnRH from hypothalamus controls pituitary hormones
+• FSH stimulates follicle development and estrogen production
+• LH triggers ovulation and corpus luteum formation
+• Estrogen and progesterone regulate uterine changes
+• Negative feedback maintains hormonal balance
+
+<strong>Significance:</strong>
+• Prepares female body for potential pregnancy
+• Cyclical changes ensure optimal conditions for fertilization
+• Indicates reproductive health and fertility
+• Varies in length among individuals (21-35 days normal)
+
+<h4>9. Fertilization and Development</h4>
+<strong>Internal Fertilization:</strong>
+• Sperm deposited inside female reproductive tract
+• Advantages: Protection from external environment, higher success rate
+• Occurs in fallopian tube (ampulla region)
+• Only one sperm fertilizes egg despite millions released
+
+<strong>Embryonic Development:</strong>
+• Zygote undergoes rapid cell divisions (cleavage)
+• Blastocyst implants in uterine wall
+• Three germ layers form: ectoderm, mesoderm, endoderm
+• Organ systems develop during embryonic period (first 8 weeks)
+• Fetal period (9 weeks to birth): Growth and maturation
+
+<strong>Pregnancy and Birth:</strong>
+• Gestation period: 280 days from last menstrual period
+• Placenta provides nutrients and removes waste
+• Hormonal changes maintain pregnancy
+• Birth initiated by hormonal triggers
+• Labor involves uterine contractions and cervical dilation
+
+<h4>10. Reproductive Health</h4>
+<strong>Contraception Methods:</strong>
+• Barrier methods: Condoms, diaphragms (prevent sperm entry)
+• Hormonal methods: Pills, injections (prevent ovulation)
+• Intrauterine devices: Copper-T, hormonal IUDs
+• Surgical methods: Vasectomy (male), tubectomy (female)
+• Natural methods: Rhythm method, withdrawal
+
+<strong>Sexually Transmitted Infections:</strong>
+• Bacterial: Gonorrhea, syphilis, chlamydia (treatable with antibiotics)
+• Viral: HIV/AIDS, herpes, hepatitis B (chronic infections)
+• Prevention: Safe sex practices, vaccination, regular testing
+• Early detection and treatment prevent complications
+
+<strong>Adolescence and Puberty:</strong>
+• Physical and psychological changes during teenage years
+• Hormonal changes trigger secondary sexual characteristics
+• Growth spurts and reproductive system maturation
+• Emotional and social development challenges
+• Importance of sex education and counseling
+
+This completes comprehensive coverage of Reproduction chapter covering all organisms from plants to humans for Class 10 CBSE Science.`
+            },
+
+            heredity: {
+                title: "Heredity and Evolution", 
+                content: `<h3>🧬 Heredity and Evolution</h3>
+
+<h4>1. Introduction to Heredity</h4>
+• Process by which traits pass from parents to offspring
+• Explains similarities and differences within families
+• Controlled by genes located on chromosomes
+• Foundation for understanding evolution and species development
+• Involves both genetic and environmental factors
+• Crucial for plant and animal breeding programs
+
+<h4>2. Gregor Mendel - Father of Genetics</h4>
+• Austrian monk who studied inheritance patterns (1822-1884)
+• Conducted experiments on garden pea (Pisum sativum)
+• Chose pea plants because of distinct contrasting traits
+• Used mathematical approach to analyze results
+• Published findings in 1866 but remained unrecognized until 1900
+• Laid foundation for modern genetics
+
+<strong>Why Pea Plant for Experiments:</strong>
+• Seven pairs of contrasting traits easily observable
+• Self-fertilizing but cross-pollination possible
+• Short life cycle allowing multiple generations
+• Large number of offspring for statistical analysis
+• Pure breeding varieties available
+• Easy to grow and maintain
+
+<h4>3. Mendel's Experiments and Observations</h4>
+<strong>Monohybrid Cross:</strong>
+• Cross between parents differing in single trait
+• P generation: TT (tall) × tt (dwarf)
+• F₁ generation: All Tt (tall) - Law of Dominance
+• F₂ generation: 1 TT : 2 Tt : 1 tt (3:1 phenotype ratio)
+• Demonstrated concept of dominant and recessive traits
+
+<strong>Test Cross:</strong>
+• Cross between F₁ individual and recessive parent
+• Used to determine genotype of individual showing dominant trait
+• Results: 1:1 ratio if individual is heterozygous
+• 100% dominant phenotype if individual is homozygous dominant
+• Important tool in genetic analysis and breeding
+
+<strong>Dihybrid Cross:</strong>
+• Cross between parents differing in two traits
+• Example: RRYY (round yellow) × rryy (wrinkled green)
+• F₁ generation: All RrYy (round yellow)
+• F₂ generation: 9:3:3:1 phenotypic ratio
+• Demonstrates Law of Independent Assortment
+
+<h4>4. Mendel's Laws of Inheritance</h4>
+<strong>Law of Dominance:</strong>
+• In heterozygous condition, only dominant trait expresses
+• Recessive trait remains hidden but not lost
+• Dominant allele masks expression of recessive allele
+• Examples: T (tall) dominant over t (dwarf)
+
+<strong>Law of Segregation:</strong>
+• Each parent contributes one allele for each trait
+• Allele pairs separate during gamete formation
+• Random combination occurs during fertilization
+• Each offspring receives one allele from each parent
+• Explains 3:1 ratio in F₂ generation of monohybrid cross
+
+<strong>Law of Independent Assortment:</strong>
+• Alleles of different traits assort independently
+• Applies when genes are on different chromosomes
+• Does not apply to linked genes on same chromosome
+• Results in 9:3:3:1 ratio in dihybrid cross
+• Increases genetic diversity in offspring
+
+<h4>5. Modern Genetics Concepts</h4>
+<strong>Genes and Alleles:</strong>
+• Gene: Unit of inheritance controlling specific trait
+• Allele: Alternative forms of same gene
+• Locus: Specific location of gene on chromosome
+• Homozygous: Both alleles same (TT or tt)
+• Heterozygous: Alleles different (Tt)
+
+<strong>Genotype and Phenotype:</strong>
+• Genotype: Genetic makeup of individual (TT, Tt, tt)
+• Phenotype: Observable characteristics (tall, dwarf)
+• Environment can influence phenotype expression
+• Same genotype may show different phenotypes
+• Important in understanding genetic disorders
+
+<strong>Complete and Incomplete Dominance:</strong>
+• Complete dominance: One allele completely masks another
+• Incomplete dominance: Heterozygote shows intermediate phenotype
+• Example: Red (RR) × White (WW) → Pink (RW) flowers
+• Co-dominance: Both alleles express simultaneously
+• Example: AB blood group shows both A and B antigens
+
+<h4>6. Sex Determination</h4>
+<strong>Chromosomal Sex Determination:</strong>
+• Humans have 23 pairs of chromosomes (46 total)
+• 22 pairs autosomes + 1 pair sex chromosomes
+• Males: XY (heterogametic)
+• Females: XX (homogametic)
+• Father determines sex of offspring
+
+<strong>Sex-linked Inheritance:</strong>
+• Genes located on sex chromosomes show sex-linked inheritance
+• X-linked recessive traits more common in males
+• Examples: Color blindness, hemophilia
+• Affected males cannot pass trait to sons
+• Carrier females have 50% chance of affected sons
+
+<strong>Sex-linked Disorders:</strong>
+• Hemophilia: Blood clotting disorder, X-linked recessive
+• Color blindness: Inability to distinguish certain colors
+• Duchenne muscular dystrophy: Progressive muscle weakness
+• More prevalent in males due to single X chromosome
+
+<h4>7. Variation and Its Sources</h4>
+<strong>Types of Variation:</strong>
+• Continuous variation: Shows range of phenotypes (height, weight)
+• Discontinuous variation: Distinct categories (blood groups)
+• Genetic variation: Due to differences in genes
+• Environmental variation: Due to external factors
+• Most traits show both genetic and environmental influence
+
+<strong>Sources of Genetic Variation:</strong>
+• Mutation: Changes in DNA sequence
+• Sexual reproduction: Independent assortment and crossing over
+• Random fertilization: Any sperm can fertilize any egg
+• Meiosis: Reduces chromosome number and creates diversity
+• Gene flow: Movement of alleles between populations
+<strong>Importance of Variation:</strong>
+• Raw material for evolution
+• Allows adaptation to changing environment
+• Provides survival advantage in diverse conditions
+• Basis for natural selection
+• Essential for species survival and evolution
+
+<h4>8. Evolution</h4>
+<strong>Definition and Evidence:</strong>
+• Gradual change in species over time
+• Supported by multiple lines of evidence
+• Fossil records show progression of life forms
+• Comparative anatomy reveals structural similarities
+• Molecular evidence shows genetic relationships
+
+<strong>Darwin's Theory of Evolution:</strong>
+• Species evolve through natural selection
+• Variation exists within populations
+• Struggle for existence due to limited resources
+• Survival of the fittest (differential reproduction)
+• Favorable traits passed to offspring
+
+<strong>Modern Evolutionary Theory:</strong>
+• Combines Darwin's ideas with genetics
+• Mutations provide raw material for evolution
+• Natural selection acts on genetic variation
+• Gene pools change over time
+• Reproductive isolation leads to speciation
+
+<h4>9. Natural Selection</h4>
+<strong>Types of Natural Selection:</strong>
+• Directional selection: Favors one extreme phenotype
+• Stabilizing selection: Favors intermediate phenotypes
+• Disruptive selection: Favors both extreme phenotypes
+• Sexual selection: Based on mating success
+
+<strong>Examples of Natural Selection:</strong>
+• Industrial melanism in peppered moths
+• Antibiotic resistance in bacteria
+• Pesticide resistance in insects
+• Sickle cell anemia and malaria resistance
+• Finches of Galapagos Islands
+
+<strong>Factors Affecting Evolution:</strong>
+• Gene flow: Migration between populations
+• Genetic drift: Random changes in small populations
+• Mutation: Source of new alleles
+• Non-random mating: Affects allele frequencies
+• Population size: Smaller populations evolve faster
+
+<h4>10. Human Evolution</h4>
+<strong>Evidence for Human Evolution:</strong>
+• Fossil evidence: Australopithecus, Homo erectus, Homo sapiens
+• Comparative anatomy: Similarities with other primates
+• Molecular evidence: DNA similarities with apes
+• Vestigial organs: Appendix, tailbone, wisdom teeth
+• Embryological similarities with other vertebrates
+
+<strong>Stages of Human Evolution:</strong>
+• Australopithecus: Bipedal, small brain, 4 million years ago
+• Homo habilis: Tool use, larger brain, 2.5 million years ago
+• Homo erectus: Fire use, migration from Africa, 1.8 million years ago
+• Homo sapiens: Modern humans, complex language, 200,000 years ago
+• Cultural evolution accelerated human development
+
+<strong>Unique Human Characteristics:</strong>
+• Highly developed brain and complex language
+• Opposable thumbs enabling tool use
+• Bipedal locomotion freeing hands
+• Extended childhood for learning
+• Complex social structures and culture
+• Ability to modify environment extensively
+
+This completes comprehensive coverage of Heredity and Evolution with all important concepts, laws, and examples for Class 10 CBSE Science.`
+            },
+
+                
+
+            studyTips: {
+                title: "Effective Study Tips",
+                content: `<h3>📚 Effective Study Tips for Science</h3>
+
+<h4>1. General Study Strategies</h4>
+
+<strong>Active Learning Techniques:</strong>
+• Don't just read - engage with material
+• Summarize concepts in your own words
+• Create mind maps and flowcharts
+• Teach concepts to others
+• Use the Feynman Technique
+
+<strong>Time Management:</strong>
+• Use Pomodoro Technique (25 min study + 5 min break)
+• Create a realistic study schedule
+• Prioritize difficult topics during peak focus hours
+• Break large topics into smaller chunks
+
+<h4>2. Science-Specific Study Methods</h4>
+
+<strong>Conceptual Understanding:</strong>
+• Focus on 'why' and 'how' rather than just 'what'
+• Connect new concepts to real-life examples
+• Understand the logic behind formulas
+• Create concept maps showing relationships
+
+<strong>Formula Mastery:</strong>
+• Derive formulas step by step
+• Practice numerical problems daily
+• Create a formula sheet with derivations
+• Understand units and dimensional analysis
+
+<h4>3. Memory Techniques</h4>
+
+<strong>Mnemonics:</strong>
+• VIBGYOR for light spectrum
+• "Roy G. Biv" for rainbow colors
+• Create acronyms for lists and sequences
+
+<strong>Visual Memory:</strong>
+• Draw diagrams while studying
+• Use colors to highlight different concepts
+• Create flowcharts for processes
+• Watch educational videos
+
+<strong>Spaced Repetition:</strong>
+• Review material at increasing intervals
+• Use flashcards for quick revision
+• Practice previous year questions regularly
+
+<h4>4. Subject-Wise Tips</h4>
+
+<strong>Physics:</strong>
+• Understand concepts before memorizing formulas
+• Practice numerical problems daily
+• Draw ray diagrams and circuit diagrams
+• Learn standard values and constants
+• Focus on problem-solving techniques
+
+<strong>Chemistry:</strong>
+• Understand periodic trends
+• Practice chemical equations balancing
+• Memorize important reactions and their conditions
+• Create reaction flowcharts
+• Practice IUPAC nomenclature
+
+<strong>Biology:</strong>
+• Focus on diagrams and labeling
+• Understand life processes step by step
+• Create comparison tables
+• Memorize scientific names and classifications
+• Connect processes to human body
+
+<h4>5. Exam Preparation</h4>
+
+<strong>30 Days Before Exam:</strong>
+• Complete entire syllabus
+• Identify weak areas
+• Create comprehensive notes
+• Start solving sample papers
+
+<strong>15 Days Before Exam:</strong>
+• Focus on revision
+• Solve previous year papers
+• Time yourself while solving
+• Clear doubts immediately
+
+<strong>1 Week Before Exam:</strong>
+• Quick revision using notes
+• Practice important numericals
+• Memorize formulas and reactions
+• Maintain calm and confidence
+
+<h4>6. During the Exam</h4>
+
+<strong>Time Management:</strong>
+• Read entire paper first (10 minutes)
+• Start with easier questions
+• Allocate time per section
+• Leave difficult questions for last
+• Keep 15 minutes for final review
+
+<strong>Writing Strategy:</strong>
+• Write neat and legible answers
+• Draw clear diagrams with labels
+• Show all steps in numerical problems
+• Use bullet points for better presentation
+• Underline key terms and formulas
+
+
+<h4>7. Common Mistakes to Avoid</h4>
+• Cramming without understanding
+• Ignoring previous year papers
+• Not practicing numerical problems
+• Poor time management during exam
+• Not revising regularly
+• Focusing only on theory, ignoring practicals
+
+<h4>8. Health and Motivation</h4>
+
+<strong>Physical Health:</strong>
+• Maintain regular sleep schedule (7-8 hours)
+• Take breaks every 1-2 hours
+• Do light exercise or yoga
+• Eat nutritious food
+• Stay hydrated
+
+<strong>Mental Health:</strong>
+• Stay positive and motivated
+• Take help when needed
+• Don't compare with others
+• Reward yourself for achievements
+• Practice meditation or relaxation
+
+<h4>9. Resource Optimization</h4>
+
+<strong>Study Materials:</strong>
+• NCERT textbooks (primary source)
+• Reference books for extra practice
+• Online educational platforms
+• Educational YouTube channels
+• Mobile apps for quick revision
+
+<strong>Group Study Benefits:</strong>
+• Discuss difficult concepts
+• Share different perspectives
+• Motivate each other
+• Clear doubts together
+• Practice mock tests
+
+<h4>10. Digital Tools</h4>
+• Use apps for formula sheets
+• Watch simulation videos for complex processes
+• Take online mock tests
+• Use digital flashcards
+• Create digital mind maps
+• Set study reminders
+
+Remember: Consistency is key to success in science. Study regularly, practice daily, and stay curious about the world around you!`
+            }
+        };
+
+        // Comprehensive response system with improved detection
+        function getResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Greetings and casual chat
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                return "Hello bhai! Kis sawal me doubt hai? Ask me anything about Class 10 Science! 😊";
+            }
+            
+            if (lowerMessage.includes('how are you') || lowerMessage.includes('kaise ho')) {
+                return "Main bilkul ready hun tumhari science ki help karne ke liye! Koi doubt hai toh puchho! 🚀";
+            }
+            
+            // Check if it's a question but not science related
+            if (isQuestion(lowerMessage) && !containsScienceKeywords(lowerMessage)) {
+                return "Bhai mughe nhi pata iska jawab. Notes check kar! Main sirf Class 10 Science help kar sakta hun. 📚";
+            }
+            
+            // Non-science random chat (not a question)
+            if (!containsScienceKeywords(lowerMessage) && !isQuestion(lowerMessage)) {
+                return "Bhai mughe time pass karne ka time nhi hai! Science ka doubt hai toh puchh! 😤";
+            }
+            
+            // Science topics detection and response
+            if (lowerMessage.includes('light') || lowerMessage.includes('reflection') || lowerMessage.includes('refraction')) {
+                return scienceDatabase.light.content;
+            }
+            
+            if (lowerMessage.includes('electricity') || lowerMessage.includes('current') || lowerMessage.includes('ohm') || lowerMessage.includes('resistance')) {
+                return scienceDatabase.electricity.content;
+            }
+            
+            if (lowerMessage.includes('acid') || lowerMessage.includes('base') || lowerMessage.includes('salt') || lowerMessage.includes('ph')) {
+                return scienceDatabase.acids.content;
+            }
+            
+            if (lowerMessage.includes('carbon') || lowerMessage.includes('hydrocarbon') || lowerMessage.includes('organic')) {
+                return scienceDatabase.carbon.content;
+            }
+            
+            if (lowerMessage.includes('nutrition') || lowerMessage.includes('photosynthesis') || lowerMessage.includes('digestive')) {
+                return scienceDatabase.nutrition.content;
+            }
+            
+            if (lowerMessage.includes('metal') || lowerMessage.includes('non-metal') || lowerMessage.includes('extraction')) {
+                return scienceDatabase.metals.content;
+            }
+            
+            if (lowerMessage.includes('respiration') || lowerMessage.includes('breathing') || lowerMessage.includes('gaseous exchange')) {
+                return scienceDatabase.respiration.content;
+            }
+            
+            if (lowerMessage.includes('reproduction') || lowerMessage.includes('sexual') || lowerMessage.includes('asexual')) {
+                return scienceDatabase.reproduction.content;
+            }
+            
+            if (lowerMessage.includes('heredity') || lowerMessage.includes('evolution') || lowerMessage.includes('mendel')) {
+                return scienceDatabase.heredity.content;
+            }
+            
+            if (lowerMessage.includes('periodic') || lowerMessage.includes('mendeleev') || lowerMessage.includes('classification')) {
+                return scienceDatabase.periodic.content;
+            }
+            
+            if (lowerMessage.includes('magnetic') || lowerMessage.includes('electromagnetic') || lowerMessage.includes('induction')) {
+                return scienceDatabase.magnetic.content;
+            }
+            
+            if (lowerMessage.includes('energy') || lowerMessage.includes('renewable') || lowerMessage.includes('non-renewable')) {
+                return scienceDatabase.energy.content;
+            }
+            
+            if (lowerMessage.includes('study tip') || lowerMessage.includes('how to study') || lowerMessage.includes('exam prep')) {
+                return scienceDatabase.studyTips.content;
+            }
+            
+            // If science question but no specific match found
+            if (isQuestion(lowerMessage) && containsScienceKeywords(lowerMessage)) {
+                return "Bhai mughe nhi pata iska jawab. Notes check kar! Try specific topics like light, electricity, acids, carbon, nutrition, etc. 📖";
+            }
+            
+            // Default response
+            return "Hello bhai! Main Class 10 Science ka AI assistant hun. Physics, Chemistry, Biology ke bare me puchho! 🤖";
+        }
+        
+        // Enhanced question detection
+        function isQuestion(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Check for WH words
+            const whWords = ['what', 'why', 'how', 'when', 'where', 'which', 'who'];
+            const hasWhWord = whWords.some(word => lowerMessage.includes(word));
+            
+            // Check for question indicators
+            const questionWords = ['describe', 'define', 'explain', 'tell', 'give', 'show', 'find', 'calculate'];
+            const hasQuestionWord = questionWords.some(word => lowerMessage.includes(word));
+            
+            // Check for question mark
+            const hasQuestionMark = message.includes('?');
+            
+            return hasWhWord || hasQuestionWord || hasQuestionMark;
+        }
+        
+        // Check if message contains science-related keywords
+        function containsScienceKeywords(message) {
+            const scienceKeywords = [
+                'physics', 'chemistry', 'biology', 'science', 'light', 'electricity', 'current', 
+                'acid', 'base', 'carbon', 'nutrition', 
+                'photosynthesis', 'reflection', 'refraction',
+                'ohm', 'resistance', 'metal', 'salt', 'formula', 'equation', 'reaction', 'element',
+                'compound', 'cell', 'digestion', 'respiration', 'reproduction', 'heredity', 
+                'periodic', 'magnetic', 'energy', 'power', 'study', 'exam', 'cbse', 'class',
+                'matter', 'atom', 'molecule', 'force', 'motion', 'heat', 'sound', 'wave',
+                'enzyme', 'protein', 'glucose', 'oxygen', 'hydrogen', 'electron', 'neutron'
+            ];
+            
+            return scienceKeywords.some(keyword => message.includes(keyword));
+        }
+    </script>
+</body>
+</html>
+      
+                

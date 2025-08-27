@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 10 Science Study Guide</title>
+    <!-- Sirf ye code copy karke kisi bhi HTML page mein paste kar dein -->
+
+<style>
+.back-cross-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, grey, white);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 15px rgba(255, 107, 107, 0.4);
+    transition: all 0.3s ease;
+}
+
+.back-cross-btn:hover {
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    transform: scale(1.15);
+    box-shadow: 0 5px 20px rgba(255, 23, 68, 0.6);
+}
+
+.back-cross-btn:active {
+    transform: scale(0.95);
+}
+
+.back-cross-btn::before,
+.back-cross-btn::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.back-cross-btn::before {
+    transform: rotate(45deg);
+}
+
+.back-cross-btn::after {
+    transform: rotate(-45deg);
+}
+</style>
+
+<button class="back-cross-btn" onclick="goBack()" title="Go Back"></button>
+
+<script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = '/';
+    }
+}
+</script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #ccc;
+            font-size: 1.1rem;
+            font-weight: normal;
+        }
+        
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid #333;
+            background: #111;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .nav a:hover {
+            background: #222;
+            border-color: #555;
+        }
+        
+        /* Subject Sections */
+        .subject-section {
+            margin-bottom: 50px;
+            padding: 30px 0;
+        }
+        
+        .subject-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .subject-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .subject-desc {
+            color: #999;
+            font-size: 1rem;
+        }
+        
+        /* Questions */
+        .questions-list {
+            list-style: none;
+        }
+        
+        .question-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #111;
+            border: 1px solid #222;
+            border-left: 4px solid #333;
+        }
+        
+        .physics .question-item {
+            border-left-color: #666;
+        }
+        
+        .chemistry .question-item {
+            border-left-color: #777;
+        }
+        
+        .biology .question-item {
+            border-left-color: #888;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        
+        .answer-text {
+            color: #ddd;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .nav a {
+                width: 200px;
+                text-align: center;
+            }
+            
+            .subject-title {
+                font-size: 1.5rem;
+            }
+            
+            .question-item {
+                padding: 15px;
+            }
+        }
+        
+        /* Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Selection */
+        ::selection {
+            background: #333;
+            color: #fff;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Science Study Guide</h1>
+            <p class="subtitle">Class 10 • Important Questions & Answers</p>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="#physics">Physics</a>
+            <a href="#chemistry">Chemistry</a>
+            <a href="#biology">Biology</a>
+        </nav>
+
+        <!-- Physics Section -->
+        <section id="physics" class="subject-section physics">
+            <div class="subject-header">
+                <h2 class="subject-title">Physics</h2>
+                <p class="subject-desc">Light, Electricity & Magnetic Effects</p>
+            </div>
+            
+            <ul class="questions-list">
+                <li class="question-item">
+                    <div class="question-number">Question 1</div>
+                    <div class="question-text">What is the SI unit of electric current?</div>
+                    <div class="answer-text">Ampere (A). It is named after André-Marie Ampère and measures the flow of electric charge per unit time.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 2</div>
+                    <div class="question-text">What causes the twinkling of stars?</div>
+                    <div class="answer-text">Atmospheric refraction. Light from stars bends as it passes through different layers of Earth's atmosphere with varying densities.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 3</div>
+                    <div class="question-text">Which lens is used to correct myopia?</div>
+                    <div class="answer-text">Concave lens. It diverges light rays to move the image back to the retina for clear vision.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 4</div>
+                    <div class="question-text">What is the formula for electrical power?</div>
+                    <div class="answer-text">P = V × I = I²R = V²/R. Where P is power, V is voltage, I is current, and R is resistance.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 5</div>
+                    <div class="question-text">Why does a compass needle point north?</div>
+                    <div class="answer-text">Earth's magnetic field. The compass needle aligns with Earth's magnetic field lines, pointing toward the magnetic north pole.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 6</div>
+                    <div class="question-text">What is electromagnetic induction?</div>
+                    <div class="answer-text">When a conductor moves in a magnetic field or when magnetic field changes around a conductor, EMF is induced. This is Faraday's Law.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 7</div>
+                    <div class="question-text">Which color has the maximum wavelength in visible spectrum?</div>
+                    <div class="answer-text">Red light. It has the longest wavelength (about 700 nm) and lowest frequency in the visible spectrum.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 8</div>
+                    <div class="question-text">What is the speed of light in vacuum?</div>
+                    <div class="answer-text">3 × 10⁸ m/s. This is a fundamental constant denoted by 'c' and is the maximum speed at which information can travel.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 9</div>
+                    <div class="question-text">Why do we use fuses in electrical circuits?</div>
+                    <div class="answer-text">Safety protection. Fuses melt when excess current flows, breaking the circuit to prevent fire and damage to appliances.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 10</div>
+                    <div class="question-text">What is total internal reflection?</div>
+                    <div class="answer-text">When light travels from denser to rarer medium and angle of incidence exceeds critical angle, complete reflection occurs at the boundary.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 11</div>
+                    <div class="question-text">Which device measures electric current?</div>
+                    <div class="answer-text">Ammeter. It is connected in series with the circuit and has very low resistance to avoid affecting the current measurement.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 12</div>
+                    <div class="question-text">What is the focal length of a plane mirror?</div>
+                    <div class="answer-text">Infinite. A plane mirror can be considered as a spherical mirror with infinite radius of curvature, hence infinite focal length.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 13</div>
+                    <div class="question-text">Why does sky appear blue?</div>
+                    <div class="answer-text">Scattering of light. Blue light has shorter wavelength and gets scattered more by tiny particles in the atmosphere.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 14</div>
+                    <div class="question-text">State Ohm's law.</div>
+                    <div class="answer-text">V = I × R. The potential difference across a conductor is directly proportional to current, provided temperature remains constant.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 15</div>
+                    <div class="question-text">Which part of eye controls light entry?</div>
+                    <div class="answer-text">Iris. It contains muscles that contract or relax to change the size of the pupil, controlling light entry.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 16</div>
+                    <div class="question-text">What is the function of a transformer?</div>
+                    <div class="answer-text">To change AC voltage. Step-up transformer increases voltage while step-down transformer decreases voltage using electromagnetic induction.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 17</div>
+                    <div class="question-text">Why are concave mirrors used in torches?</div>
+                    <div class="answer-text">To produce parallel beam. When light source is placed at the focus, concave mirror reflects light as parallel rays, creating a strong beam.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 18</div>
+                    <div class="question-text">What is the commercial unit of electrical energy?</div>
+                    <div class="answer-text">Kilowatt-hour (kWh). Also called 'unit' of electricity, equal to energy consumed by 1 kW appliance in 1 hour.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 19</div>
+                    <div class="question-text">How is rainbow formed?</div>
+                    <div class="answer-text">Dispersion and total internal reflection. Sunlight splits into seven colors in water droplets through refraction, dispersion and reflection.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 20</div>
+                    <div class="question-text">Which rule gives direction of induced current?</div>
+                    <div class="answer-text">Fleming's Right Hand Rule. Thumb (motion), first finger (field), middle finger (induced current) are perpendicular to each other.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Chemistry Section -->
+        <section id="chemistry" class="subject-section chemistry">
+            <div class="subject-header">
+                <h2 class="subject-title">Chemistry</h2>
+                <p class="subject-desc">Acids, Bases & Salts, Metals & Non-metals</p>
+            </div>
+            
+            <ul class="questions-list">
+                <li class="question-item">
+                    <div class="question-number">Question 1</div>
+                    <div class="question-text">What is the pH of pure water?</div>
+                    <div class="answer-text">pH = 7. Pure water is neutral with equal concentration of H⁺ and OH⁻ ions.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 2</div>
+                    <div class="question-text">Which gas is produced when metals react with acids?</div>
+                    <div class="answer-text">Hydrogen gas (H₂). Metal + Acid → Salt + Hydrogen gas. This is a displacement reaction.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 3</div>
+                    <div class="question-text">What is the chemical formula of baking soda?</div>
+                    <div class="answer-text">NaHCO₃ (Sodium bicarbonate). Used in cooking, fire extinguishers, and as antacid due to its basic nature.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 4</div>
+                    <div class="question-text">Which acid is present in vinegar?</div>
+                    <div class="answer-text">Acetic acid (CH₃COOH). About 5-8% acetic acid in water gives vinegar its sour taste and preservative properties.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 5</div>
+                    <div class="question-text">What is galvanization?</div>
+                    <div class="answer-text">Process of coating iron with zinc. Zinc coating prevents rusting as zinc is more reactive than iron and acts as sacrificial protection.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 6</div>
+                    <div class="question-text">Which element is used in pencil lead?</div>
+                    <div class="answer-text">Carbon (Graphite). Graphite is a soft form of carbon that leaves marks on paper due to its layered structure.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 7</div>
+                    <div class="question-text">What turns lime water milky?</div>
+                    <div class="answer-text">Carbon dioxide (CO₂). Forms calcium carbonate precipitate: Ca(OH)₂ + CO₂ → CaCO₃ + H₂O</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 8</div>
+                    <div class="question-text">Which metal is liquid at room temperature?</div>
+                    <div class="answer-text">Mercury (Hg). Has melting point of -39°C and boiling point of 357°C, making it liquid at room temperature.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 9</div>
+                    <div class="question-text">What is the atomic number of carbon?</div>
+                    <div class="answer-text">6. Carbon has 6 protons in its nucleus, giving it atomic number 6 and electronic configuration 2,4.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 10</div>
+                    <div class="question-text">Which process separates salt from seawater?</div>
+                    <div class="answer-text">Distillation. Water evaporates leaving salt behind, then water vapor is condensed to get pure water.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 11</div>
+                    <div class="question-text">What is the chemical name of common salt?</div>
+                    <div class="answer-text">Sodium chloride (NaCl). Formed by ionic bonding between sodium (Na⁺) and chloride (Cl⁻) ions.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 12</div>
+                    <div class="question-text">Which gas is used in fire extinguishers?</div>
+                    <div class="answer-text">Carbon dioxide (CO₂). Being heavier than air, it covers the fire and cuts off oxygen supply, stopping combustion.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 13</div>
+                    <div class="question-text">What is the hardest naturally occurring substance?</div>
+                    <div class="answer-text">Diamond. Carbon atoms in tetrahedral arrangement create extremely strong covalent bonds, hardness = 10 on Mohs scale.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 14</div>
+                    <div class="question-text">Which indicator turns pink in basic solution?</div>
+                    <div class="answer-text">Phenolphthalein. Colorless in acidic/neutral solutions, turns pink/magenta in basic solutions (pH > 8.2).</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 15</div>
+                    <div class="question-text">What is the valency of carbon?</div>
+                    <div class="answer-text">4. Carbon has 4 electrons in outer shell, can form 4 covalent bonds to achieve stable octet configuration.</div>
+                </li>
+                
+                                <li class="question-item">
+                    <div class="question-number">Question 16</div>
+                    <div class="question-text">Which compound is known as 'laughing gas'?</div>
+                    <div class="answer-text">Nitrous oxide (N₂O). Used as anesthetic in dentistry, causes euphoria and laughter when inhaled in small amounts.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 17</div>
+                    <div class="question-text">What is the main ore of aluminum?</div>
+                    <div class="answer-text">Bauxite (Al₂O₃·2H₂O). Aluminum is extracted from bauxite through electrolytic reduction after purification.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 18</div>
+                    <div class="question-text">Which type of reaction releases heat?</div>
+                    <div class="answer-text">Exothermic reaction. Energy is released as heat, light, or sound. Examples: combustion, respiration, neutralization.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 19</div>
+                    <div class="question-text">What is sublimation?</div>
+                    <div class="answer-text">Direct conversion of solid to gas. No liquid phase involved. Examples: dry ice, camphor, iodine crystals.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 20</div>
+                    <div class="question-text">Which element has chemical symbol 'Au'?</div>
+                    <div class="answer-text">Gold. Symbol derived from Latin 'Aurum'. Gold is unreactive, doesn't tarnish, and has atomic number 79.</div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Biology Section -->
+        <section id="biology" class="subject-section biology">
+            <div class="subject-header">
+                <h2 class="subject-title">Biology</h2>
+                <p class="subject-desc">Life Processes, Control & Coordination</p>
+            </div>
+            
+            <ul class="questions-list">
+                <li class="question-item">
+                    <div class="question-number">Question 1</div>
+                    <div class="question-text">What is the basic unit of life?</div>
+                    <div class="answer-text">Cell. The smallest structural and functional unit of all living organisms, discovered by Robert Hooke in 1665.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 2</div>
+                    <div class="question-text">Which organelle is called the powerhouse of the cell?</div>
+                    <div class="answer-text">Mitochondria. Produces ATP (energy) through cellular respiration. Has double membrane and its own DNA.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 3</div>
+                    <div class="question-text">What is photosynthesis?</div>
+                    <div class="answer-text">Process where plants make food using sunlight. 6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂ (in chloroplasts)</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 4</div>
+                    <div class="question-text">Which blood group is universal donor?</div>
+                    <div class="answer-text">O negative (O-). Has no A, B, or Rh antigens, so can donate to all blood groups without causing immune reaction.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 5</div>
+                    <div class="question-text">What is the function of stomata?</div>
+                    <div class="answer-text">Gas exchange and transpiration. Tiny pores on leaves controlled by guard cells for CO₂ entry and O₂/water vapor exit.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 6</div>
+                    <div class="question-text">Which hormone regulates blood sugar?</div>
+                    <div class="answer-text">Insulin. Produced by pancreas, helps cells absorb glucose from blood, deficiency causes diabetes mellitus.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 7</div>
+                    <div class="question-text">What is the longest bone in human body?</div>
+                    <div class="answer-text">Femur (thigh bone). Extends from hip to knee, strongest bone supporting body weight during walking and running.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 8</div>
+                    <div class="question-text">Which part of brain controls balance?</div>
+                    <div class="answer-text">Cerebellum. Located behind the brain stem, coordinates voluntary movements, balance, posture, and motor learning.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 9</div>
+                    <div class="question-text">What are chromosomes?</div>
+                    <div class="answer-text">Thread-like structures carrying genes. Made of DNA and proteins, humans have 23 pairs (46 total) in each cell nucleus.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 10</div>
+                    <div class="question-text">Which organ purifies blood?</div>
+                    <div class="answer-text">Kidneys. Filter waste products and excess water from blood to form urine, maintain electrolyte balance and blood pressure.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 11</div>
+                    <div class="question-text">What is transpiration?</div>
+                    <div class="answer-text">Loss of water vapor from plants. Mainly through stomata, helps in water absorption, nutrient transport, and cooling.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 12</div>
+                    <div class="question-text">Which vitamin is produced by skin?</div>
+                    <div class="answer-text">Vitamin D. Synthesized when skin is exposed to UVB radiation from sunlight, essential for calcium absorption and bone health.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 13</div>
+                    <div class="question-text">What is the functional unit of kidney?</div>
+                    <div class="answer-text">Nephron. Microscopic filtering unit consisting of glomerulus and tubules, each kidney has about 1 million nephrons.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 14</div>
+                    <div class="question-text">Which gas is released during photosynthesis?</div>
+                    <div class="answer-text">Oxygen (O₂). Released as byproduct when water molecules split during light reactions, essential for all aerobic life.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 15</div>
+                    <div class="question-text">What controls the pupil size?</div>
+                    <div class="answer-text">Iris. Colored part of eye with muscles that contract/relax to change pupil diameter, controlling light entry into eye.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 16</div>
+                    <div class="question-text">Which blood vessels carry blood away from heart?</div>
+                    <div class="answer-text">Arteries. Have thick muscular walls to withstand high pressure, carry oxygenated blood (except pulmonary artery).</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 17</div>
+                    <div class="question-text">What is the site of protein synthesis?</div>
+                    <div class="answer-text">Ribosomes. Small organelles that translate mRNA into proteins, found free in cytoplasm or attached to rough ER.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 18</div>
+                    <div class="question-text">Which part of plant absorbs water?</div>
+                    <div class="answer-text">Roots. Root hairs increase surface area for water and mineral absorption from soil through osmosis and active transport.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 19</div>
+                    <div class="question-text">What is the master gland?</div>
+                    <div class="answer-text">Pituitary gland. Controls other endocrine glands by secreting hormones, located at base of brain, size of a pea.</div>
+                </li>
+                
+                <li class="question-item">
+                    <div class="question-number">Question 20</div>
+                    <div class="question-text">Which tissue transports food in plants?</div>
+                    <div class="answer-text">Phloem. Vascular tissue that transports sugars and organic compounds from leaves to other parts of plant (translocation).</div>
+                </li>
+            </ul>
+        </section>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚙️ Millennium Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0a0a0a;
+            --secondary-dark: #1a1a2e;
+            --accent-dark: #16213e;
+            --primary-light: #ffffff;
+            --secondary-light: #f8fafc;
+            --accent-light: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 50%, var(--accent-dark) 100%);
+            color: white;
+            transition: var(--transition);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Skip Button */
+        .skip-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 1000;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .skip-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Animated Background */
+        .bg-effects {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(99, 102, 241, 0.3), rgba(168, 85, 247, 0.3));
+            animation: float 6s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        .orb1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .orb3 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3)); }
+            to { filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5)); }
+        }
+
+        .header p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Settings Grid */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Setting Card */
+        .setting-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .setting-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.8), transparent);
+            transition: var(--transition);
+        }
+
+        .setting-card:hover::before {
+            left: 100%;
+        }
+
+        .setting-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .setting-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .setting-icon {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .setting-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: currentColor;
+        }
+
+        /* Controls */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+        }
+
+        .toggle-handle {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: var(--transition);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active .toggle-handle {
+            transform: translateX(30px);
+        }
+
+        .select-box, .color-picker {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .select-box:hover, .color-picker:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .select-box option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn.active {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-color: transparent;
+        }
+
+        /* Action Buttons */
+        .action-section {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: white;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Success Popup */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            z-index: 10000;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            min-width: 400px;
+        }
+
+        .popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .popup h2 {
+            color: #10b981;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup p {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .popup-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Light Theme */
+        .light-theme {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 50%, var(--accent-light) 100%);
+            color: #1a1a1a;
+        }
+
+        .light-theme .setting-card {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .light-theme .select-box,
+        .light-theme .color-picker,
+        .light-theme .btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #1a1a1a;
+        }
+
+        .light-theme .skip-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #1a1a1a;
+        }
+
+        .light-theme .floating-orb {
+            background: linear-gradient(45deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 5rem 1rem 2rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .setting-card {
+                padding: 1.5rem;
+            }
+
+            .action-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .save-btn, .reset-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .skip-btn {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .popup {
+                min-width: 90vw;
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body id="body">
+    <!-- Skip Button -->
+    <button class="skip-btn" onclick="goBack()">
+        ← Skip Settings
+    </button>
+
+    <!-- Animated Background -->
+    <div class="bg-effects">
+        <div class="floating-orb orb1"></div>
+        <div class="floating-orb orb2"></div>
+        <div class="floating-orb orb3"></div>
+    </div>
+
+    <!-- Success Popup -->
+    <div class="popup" id="successPopup">
+        <div class="popup-icon">✅</div>
+        <h2>Settings Saved!</h2>
+        <p>Your preferences have been successfully updated and applied.</p>
+        <button class="popup-btn" onclick="closePopupAndGoBack()">Continue</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>⚙️ Millennium Settings</h1>
+            <p>Customize your experience with futuristic controls</p>
+        </div>
+
+        <!-- Settings Grid -->
+        <div class="settings-grid">
+            <!-- Dark Mode Toggle -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <span class="setting-title">Theme Mode</span>
+                </div>
+                <div class="toggle-switch" id="themeToggle">
+                    <div class="toggle-handle"></div>
+                </div>
+                <p style="margin-top: 1rem; opacity: 0.7; font-size: 0.9rem;">Switch between dark and light themes</p>
+            </div>
+
+            <!-- Font Size -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <polyline points="4,7 4,4 20,4 20,7"/>
+                        <line x1="9" y1="20" x2="15" y2="20"/>
+                        <line x1="12" y1="4" x2="12" y2="20"/>
+                    </svg>
+                    <span class="setting-title">Font Size</span>
+                </div>
+                <div class="button-group">
+                    <button class="btn" id="fontSmall">Small</button>
+                    <button class="btn active" id="fontMedium">Medium</button>
+                    <button class="btn" id="fontLarge">Large</button>
+                </div>
+            </div>
+
+            <!-- Font Family -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <path d="m8 21 3-9 3 9"/>
+                        <path d="m16 16-2-6-2 6"/>
+                        <path d="m2 21 6-15 6 15"/>
+                        <path d="M14 10h4"/>
+                    </svg>
+                    <span class="setting-title">Font Family</span>
+                </div>
+                <select class="select-box" id="fontFamily">
+                    <option value="sans">Sans Serif</option>
+                    <option value="serif">Serif</option>
+                    <option value="mono">Monospace</option>
+                </select>
+            </div>
+
+            <!-- Text Color -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <circle cx="13.5" cy="6.5" r=".5"/>
+                        <circle cx="17.5" cy="10.5" r=".5"/>
+                        <circle cx="8.5" cy="7.5" r=".5"/>
+                        <circle cx="6.5" cy="12.5" r=".5"/>
+                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                    </svg>
+                    <span class="setting-title">Text Color</span>
+                </div>
+                <input type="color" class="color-picker" id="textColor" value="#ffffff">
+            </div>
+
+            <!-- Background Color -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <path d="M12 2L13.5 7.5L19 9L13.5 10.5L12 16L10.5 10.5L5 9L10.5 7.5L12 2Z"/>
+                    </svg>
+                    <span class="setting-title">Background Theme</span>
+                </div>
+                <input type="color" class="color-picker" id="bgColor" value="#0a0a0a">
+            </div>
+
+            <!-- Layout Switcher -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span class="setting-title">Layout View</span>
+                </div>
+                <div class="button-group">
+                    <button class="btn" id="listView">📋 List</button>
+                    <button class="btn active" id="gridView">🔲 Grid</button>
+                </div>
+            </div>
+
+            <!-- Language Selector -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span class="setting-title">Language</span>
+                </div>
+                <select class="select-box" id="language">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="hi">🇮🇳 हिंदी</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                </select>
+            </div>
+
+            <!-- Notification Sound -->
+            <div class="setting-card">
+                <div class="setting-header">
+                    <svg class="setting-icon" viewBox="0 0 24 24">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                    </svg>
+                    <span class="setting-title">Notification Sound</span>
+                </div>
+                <div class="toggle-switch active" id="soundToggle">
+                    <div class="toggle-handle"></div>
+                </div>
+                <p style="margin-top: 1rem; opacity: 0.7; font-size: 0.9rem;">Enable/disable notification sounds</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-section">
+            <button class="save-btn" id="saveBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17,21 17,13 7,13 7,21"/>
+                    <polyline points="7,3 7,8 15,8"/>
+                </svg>
+                Save Settings
+            </button>
+            <button class="reset-btn" id="resetBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10"/>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                </svg>
+                Reset to Default
+            </button>
+        </div>
+    </div>
+
+    <!-- Include Global Settings Script -->
+    <script src="script.js"></script>
+
+    <script>
+        // Temporary settings (not saved until Save button clicked)
+        let tempSettings = {
+            theme: 'light',          
+            fontSize: 'medium',
+            fontFamily: 'sans', 
+            textColor: '',           
+            bgColor: '',             
+            layout: 'grid',
+            language: 'en',
+            sound: true
+        };
+
+        // Elements
+        const body = document.getElementById('body');
+        const themeToggle = document.getElementById('themeToggle');
+        const fontButtons = {
+            small: document.getElementById('fontSmall'),
+            medium: document.getElementById('fontMedium'),
+            large: document.getElementById('fontLarge')
+        };
+        const fontFamily = document.getElementById('fontFamily');
+        const textColor = document.getElementById('textColor');
+        const bgColor = document.getElementById('bgColor');
+        const layoutButtons = {
+            list: document.getElementById('listView'),
+            grid: document.getElementById('gridView')
+        };
+        const language = document.getElementById('language');
+        const soundToggle = document.getElementById('soundToggle');
+        const saveBtn = document.getElementById('saveBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const successPopup = document.getElementById('successPopup');
+
+        // Load current settings into temporary settings
+        function loadCurrentSettings() {
+            tempSettings = MillenniumSettings.get();
+            updateUI();
+            console.log('📱 Current settings loaded');
+        }
+
+        // Update UI to match temporary settings
+        function updateUI() {
+            // Theme toggle
+            themeToggle.classList.toggle('active', tempSettings.theme === 'dark');
+            
+            // Font size buttons
+            Object.values(fontButtons).forEach(btn => btn.classList.remove('active'));
+            if (fontButtons[tempSettings.fontSize]) {
+                fontButtons[tempSettings.fontSize].classList.add('active');
+            }
+            
+            // Controls
+            fontFamily.value = tempSettings.fontFamily;
+            textColor.value = tempSettings.textColor || '#ffffff';
+            bgColor.value = tempSettings.bgColor || '#ffffff';
+            
+            // Layout buttons
+            Object.values(layoutButtons).forEach(btn => btn.classList.remove('active'));
+            if (layoutButtons[tempSettings.layout]) {
+                layoutButtons[tempSettings.layout].classList.add('active');
+            }
+            
+            language.value = tempSettings.language;
+            soundToggle.classList.toggle('active', tempSettings.sound);
+        }
+
+        // Preview settings (apply temporarily without saving)
+        function previewSettings() {
+            MillenniumSettings.apply(tempSettings);
+        }
+
+        // Save settings permanently
+        function saveSettings() {
+            MillenniumSettings.save(tempSettings);
+            MillenniumSettings.apply(tempSettings);
+            
+            // Show success popup
+            successPopup.classList.add('show');
+            
+            // Play sound
+            MillenniumSettings.playSound();
+            
+            console.log('✅ Settings saved permanently');
+        }
+
+        // Reset to defaults
+        function resetToDefaults() {
+            tempSettings = {
+                theme: 'light',
+                fontSize: 'medium', 
+                fontFamily: 'sans',
+                textColor: '',       
+                bgColor: '',
+                layout: 'grid',
+                language: 'en',
+                sound: true
+            };
+            
+            updateUI();
+            previewSettings();
+            MillenniumSettings.playSound();
+        }
+
+        // Go back to previous page
+        function goBack() {
+            // Load original settings (discard changes)
+            MillenniumSettings.apply();
+            
+            // Go back to previous page or home
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Close popup and go back
+        function closePopupAndGoBack() {
+            successPopup.classList.remove('show');
+            
+            setTimeout(() => {
+                goBack();
+            }, 300);
+        }
+
+        // Event Listeners
+        themeToggle.addEventListener('click', () => {
+            tempSettings.theme = tempSettings.theme === 'dark' ? 'light' : 'dark';
+            
+            if (tempSettings.theme === 'dark') {
+                tempSettings.textColor = '#ffffff';
+                tempSettings.bgColor = '#0a0a0a';
+            } else {
+                tempSettings.textColor = '';
+                tempSettings.bgColor = '';
+            }
+            
+            themeToggle.classList.toggle('active', tempSettings.theme === 'dark');
+            textColor.value = tempSettings.textColor || '#ffffff';
+            bgColor.value = tempSettings.bgColor || '#ffffff';
+            
+            previewSettings();
+            MillenniumSettings.playSound();
+        });
+
+        Object.keys(fontButtons).forEach(size => {
+            fontButtons[size].addEventListener('click', () => {
+                Object.values(fontButtons).forEach(btn => btn.classList.remove('active'));
+                fontButtons[size].classList.add('active');
+                tempSettings.fontSize = size;
+                previewSettings();
+                MillenniumSettings.playSound();
+            });
+        });
+
+        fontFamily.addEventListener('change', () => {
+            tempSettings.fontFamily = fontFamily.value;
+            previewSettings();
+            MillenniumSettings.playSound();
+        });
+
+        textColor.addEventListener('input', () => {
+            tempSettings.textColor = textColor.value;
+            previewSettings();
+        });
+
+        bgColor.addEventListener('input', () => {
+            tempSettings.bgColor = bgColor.value;
+            previewSettings();
+        });
+
+        Object.keys(layoutButtons).forEach(layout => {
+            layoutButtons[layout].addEventListener('click', () => {
+                Object.values(layoutButtons).forEach(btn => btn.classList.remove('active'));
+                layoutButtons[layout].classList.add('active');
+                tempSettings.layout = layout;
+                previewSettings();
+                MillenniumSettings.playSound();
+            });
+        });
+
+        language.addEventListener('change', () => {
+            tempSettings.language = language.value;
+            MillenniumSettings.playSound();
+        });
+
+        soundToggle.addEventListener('click', () => {
+            tempSettings.sound = !tempSettings.sound;
+            soundToggle.classList.toggle('active');
+            if (tempSettings.sound) MillenniumSettings.playSound();
+        });
+
+        // Save button
+        saveBtn.addEventListener('click', saveSettings);
+
+        // Reset button
+        resetBtn.addEventListener('click', resetToDefaults);
+
+        // Close popup on click outside
+        successPopup.addEventListener('click', (e) => {
+            if (e.target === successPopup) {
+                closePopupAndGoBack();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + S to save
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                saveSettings();
+            }
+            
+            // Escape to go back
+            if (e.key === 'Escape') {
+                if (successPopup.classList.contains('show')) {
+                    closePopupAndGoBack();
+                } else {
+                    goBack();
+                }
+            }
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCurrentSettings();
+            console.log('⚙️ Settings page loaded');
+        });
+
+        // Prevent accidental page close
+        let hasUnsavedChanges = false;
+
+        // Check for changes
+        function checkForChanges() {
+            const currentSettings = MillenniumSettings.get();
+            const settingsChanged = JSON.stringify(currentSettings) !== JSON.stringify(tempSettings);
+            hasUnsavedChanges = settingsChanged;
+        }
+
+        // Monitor changes
+        setInterval(checkForChanges, 1000);
+
+        window.addEventListener('beforeunload', (e) => {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+                return e.returnValue;
+            }
+        });

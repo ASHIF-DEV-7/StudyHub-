@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Hub - About & Feedback</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f9f9f9; /* Light background */
+      color: #222; /* Dark text */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #0d1b2a;
+    }
+
+    h2 {
+      color: #1b263b;
+      margin-bottom: 10px;
+      border-left: 5px solid #415a77;
+      padding-left: 8px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 850px;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    .about p {
+      line-height: 1.6;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    iframe {
+      border-radius: 12px;
+      width: 100%;
+      min-height: 720px;
+      border: none;
+      background: #fff;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #444;
+    }
+
+    /* Hover effects */
+    .card:hover {
+      transform: translateY(-3px);
+      transition: 0.3s ease-in-out;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+  </style>
+  <!-- Sirf ye code copy karke kisi bhi HTML page mein paste kar dein -->
+
+<style>
+.back-cross-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 15px rgba(255, 107, 107, 0.4);
+    transition: all 0.3s ease;
+}
+
+.back-cross-btn:hover {
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    transform: scale(1.15);
+    box-shadow: 0 5px 20px rgba(255, 23, 68, 0.6);
+}
+
+.back-cross-btn:active {
+    transform: scale(0.95);
+}
+
+.back-cross-btn::before,
+.back-cross-btn::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: white;
+    border-radius: 1px;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.back-cross-btn::before {
+    transform: rotate(45deg);
+}
+
+.back-cross-btn::after {
+    transform: rotate(-45deg);
+}
+</style>
+
+<button class="back-cross-btn" onclick="goBack()" title="Go Back"></button>
+
+<script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = '/';
+    }
+}
+</script>
+</head>
+<body>
+  <h1>📘 Study Hub</h1>
+
+  <div class="card about">
+    <h2>About</h2>
+    <p>
+      <strong>Study Hub</strong> is an all-in-one platform designed for <b>Class 10 Science students</b>.  
+      It provides <em>formulas, notes, quizzes, previous year questions (PYQs), IQ tester, offline AI tutor, 
+      important questions, timer, and fun games like tic-tac-toe</em>.
+    </p>
+    <p>
+      Whether revising formulas or solving PYQs, Study Hub makes learning interactive and effective.  
+      <br><br>
+      <em>Created by <b>ignivox017</b> 🔥 for students.</em>
+    </p>
+  </div>
+
+  <div class="card feedback">
+    <h2>Feedback Form</h2>
+    <!-- Direct Google Form Embed -->
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe0LyAeI_8VBrKaIiedPvH2A7spq-0Gfh9bKKg3qXxvyL-BvQ/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    <p class="note">📢 Next app will be made on demand if we receive 15+ feedbacks!</p>
+  </div>
+</body>
+</html>

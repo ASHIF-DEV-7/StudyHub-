@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyHub - Millennium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --primary-blue: #4285f4;
+            --primary-green: #34a853;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: #ecf0f1;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --hover-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --sidebar-bg: #1e1e1e;
+            --sidebar-text: #ffffff;
+            --shadow: 0 2px 10px rgba(0,0,0,0.3);
+            --hover-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #34495e #2c3e50;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #2c3e50;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #34495e;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #4a6741;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--sidebar-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            border-radius: 0 25px 25px 0;
+            margin-right: 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(155, 89, 182, 0.8));
+            transform: translateX(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: white;
+        }
+
+        .nav-item:active {
+            transform: translateX(5px) scale(0.98);
+        }
+
+        .nav-item i {
+            margin-right: 0.75rem;
+            width: 24px;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .greeting {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 20px rgba(66, 133, 244, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-top: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .suggestion-item:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .dark-mode .suggestion-item:hover {
+            background: #404040;
+        }
+
+        .suggestion-icon {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .suggestion-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .suggestion-title {
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+        }
+
+        .suggestion-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Created by loop */
+        .creator-loop {
+            text-align: center;
+            margin: 1rem 0;
+            height: 30px;
+            overflow: hidden;
+        }
+
+        .creator-text {
+            animation: colorLoop 3s infinite;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        @keyframes colorLoop {
+            0% { color: #ff6b6b; transform: translateY(0); }
+            25% { color: #4ecdc4; transform: translateY(-5px); }
+            50% { color: #45b7d1; transform: translateY(0); }
+            75% { color: #f9ca24; transform: translateY(-5px); }
+            100% { color: #ff6b6b; transform: translateY(0); }
+        }
+
+        /* Live Time & Motivation */
+        .live-time-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .live-time {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', monospace;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .live-date {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .motivation-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            animation: fadeInOut 3s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-btn {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .card-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+
+        .footer-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* Day/Night Toggle */
+        .theme-toggle-container {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #95a5a6;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle.active {
+            background: #3498db;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .theme-toggle.active::before {
+            transform: translateX(30px);
+        }
+
+        .theme-label {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .theme-label span {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">StudyHub</div>
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">StudyHub</div>
+            <button class="close-btn" onclick="toggleSidebar()">×</button>
+        </div>
+        <div class="sidebar-nav">
+            <a href="#" class="nav-item">🏠 Home</a>
+            <a href="notes.html" class="nav-item">📝 Notes</a>
+            <a href="formulas.html" class="nav-item">📊 Formulas</a>
+            <a href="quizopt.html" class="nav-item">❓ Quiz Games</a>
+            <a href="arti.html" class="nav-item">🤖 AI Tutor</a>
+            <a href="library.html" class="nav-item">📚 Keep Notes</a>
+            <a href="pyq.html" class="nav-item">📋 IMP PYQs</a>
+            <a href="profile.html" class="nav-item">👤 My Profile</a>
+            <a href="settings.html" class="nav-item">⚙️ Settings</a>
+            <a href="about.html"class="nav-item">🤫 About/Feedback</a>
+        </div>
+        
+        <div class="theme-toggle-container">
+            <div class="theme-label">
+                <span id="theme-icon">🌙</span>
+                <span>Dark Mode</span>
+            </div>
+            <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()"></div>
+        </div>
+    </nav>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1 class="greeting">Good Afternoon, Student! 👋</h1>
+            <p class="tagline">Ready to learn something amazing today?</p>
+        </section>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-icon">🔍</div>
+            <input type="text" class="search-bar" placeholder="Search chapters..." id="searchBar">
+            <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+
+        <!-- Created by Loop -->
+        <div class="creator-loop">
+            <div class="creator-text" id="creatorText">Created by Ashif</div>
+        </div>
+
+        <!-- Live Time & Motivation -->
+        <div class="live-time-section">
+            <div class="live-time" id="liveTime">00:00:00</div>
+            <div class="live-date" id="liveDate">Sunday, August 24, 2025</div>
+            <div class="motivation-text" id="motivationText">Good Afternoon, Student! 🌟</div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid">
+            <!-- Notes Card -->
+            <a href="notes.html" class="card">
+                <div class="card-icon">📚</div>
+                <div class="card-title">Smart Notes</div>
+                <div class="card-description">Organized notes with smart categorization and quick access</div>
+                <button class="card-btn">Access Notes</button>
+            </a>
+
+            <!-- Formulas Card -->
+            <a href="formulas.html" class="card">
+                <div class="card-icon">📐</div>
+                <div class="card-title">Formula Hub</div>
+                <div class="card-description">Interactive formulas with step-by-step explanations</div>
+                <button class="card-btn">View Formulas</button>
+            </a>
+
+            <!-- Quiz Card -->
+            <a href="quizopt.html" class="card">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">Quiz Arena</div>
+                <div class="card-description">Test your knowledge with fun interactive quizzes</div>
+                <button class="card-btn">Start Quiz</button>
+            </a>
+
+            <!-- AI Tutor Card -->
+            <a href="arti.html" class="card">
+                <div class="card-icon">🤖</div>
+                <div class="card-title">AI Tutor</div>
+                <div class="card-description">Get personalized help from AI-powered assistant</div>
+                <button class="card-btn">Ask Doubt</button>
+            </a>
+
+            <!-- Keep Notes Card -->
+            <a href="library.html" class="card">
+                <div class="card-icon">📖</div>
+                <div class="card-title">Keep Notes</div>
+                <div class="card-description">Personal library to save and organize your notes</div>
+                <button class="card-btn">Open Library</button>
+            </a>
+
+            <!-- IMP PYQs Card -->
+            <a href="pyq.html" class="card">
+                <div class="card-icon">📋</div>
+                <div class="card-title">IMP PYQs</div>
+                <div class="card-description">Important previous year questions with detailed solutions</div>
+                <button class="card-btn">View PYQs</button>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>StudyHub</h3>
+            <p>Your ultimate offline companion for Class 10th studies. Access notes, formulas, quizzes, and interactive games all in one place. Making learning fun and effective for every student!</p>
+            
+            <div class="footer-features">
+                <div class="footer-section">
+                    <h4>🎯 Features</h4>
+                    <ul>
+                        <li>• Smart organized notes</li>
+                        
+                        <li>• Engaging quiz games</li>
+                        <li>• Study progress tracking</li>
+                        <li>• Mobile-friendly design</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>📚 Subjects</h4>
+                    <ul>
+                        <li>• Physics - Light, Electricity, Magnetism, human eye and the colourful world</li>
+                        <li>• Chemistry - chemical reaction, Acids bases , carbon and its compound and metal non metal</li>
+                        <li>• Biology - Life Processes, reproduction,control and coordination, our environment and heredity</li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+            <p style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #34495e;">
+                © 2024 StudyHub - Making learning fun and accessible for everyone
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.classList.add('active');
+            themeIcon.textContent = '☀️';
+        }
+
+        function toggleTheme() {
+            body.classList.toggle('dark-mode');
+            themeToggle.classList.toggle('active');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Sidebar Management
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Advanced Search Functionality with Chapter Support
+        const searchData = [
+            // Main Sections
+            { title: 'Smart Notes', desc: 'Access organized study notes', icon: '📝', url: 'notes.html', keywords: ['notes', 'study', 'chapter', 'content', 'material'] },
+            { title: 'Formula Hub', desc: 'Mathematical formulas & equations', icon: '📐', url: 'formulas.html', keywords: ['formula', 'equation', 'math', 'calculation', 'mathematics'] },
+            { title: 'Quiz Arena', desc: 'Test your knowledge with quizzes', icon: '🎯', url: 'quizopt.html', keywords: ['quiz', 'test', 'exam', 'questions', 'practice'] },
+            { title: 'AI Tutor', desc: 'Get help from AI assistant', icon: '🤖', url: 'arti.html', keywords: ['ai', 'tutor', 'help', 'doubt', 'assistant'] },
+            { title: 'Keep Notes', desc: 'Personal notes library', icon: '📚', url: 'library.html', keywords: ['library', 'keep', 'save', 'personal', 'collection'] },
+            { title: 'IMP PYQs', desc: 'Important previous year questions', icon: '📋', url: 'pyq.html', keywords: ['pyq', 'previous', 'year', 'important', 'questions'] },
+            
+            // Physics Chapters
+            { title: 'Chapter 1 - Electricity', desc: 'Notes on electricity concepts', icon: '⚡', url: 'notes.html#electricity', keywords: ['ch1', 'chapter1', 'electricity', 'current', 'voltage', 'resistance', 'ohm', 'circuit'] },
+            { title: 'Chapter 2 - Magnetism', desc: 'Magnetic fields and forces', icon: '🧲', url: 'notes.html#magnetism', keywords: ['ch2', 'chapter2', 'magnetism', 'magnetic', 'field', 'force', 'poles'] },
+            { title: 'Chapter 3 - Light', desc: 'Reflection and refraction', icon: '💡', url: 'notes.html#light', keywords: ['ch3', 'chapter3', 'light', 'reflection', 'refraction', 'mirror', 'lens'] },
+            { title: 'Chapter 4 - Atomic Structure', desc: 'Atoms and their structure', icon: '⚛️', url: 'notes.html#atomic', keywords: ['ch4', 'chapter4', 'atomic', 'atom', 'structure', 'electron', 'proton', 'neutron'] },
+            
+            // Chemistry Chapters  
+            { title: 'Chapter 5 - Acids & Bases', desc: 'Properties of acids and bases', icon: '🧪', url: 'notes.html#acids', keywords: ['ch5', 'chapter5', 'acid', 'base', 'ph', 'neutral', 'indicator'] },
+            { title: 'Chapter 6 - Carbon Compounds', desc: 'Organic chemistry basics', icon: '⚫', url: 'notes.html#carbon', keywords: ['ch6', 'chapter6', 'carbon', 'organic', 'hydrocarbon', 'alcohol'] },
+            { title: 'Chapter 7 - Metals & Non-metals', desc: 'Properties and reactions', icon: '🔩', url: 'notes.html#metals', keywords: ['ch7', 'chapter7', 'metal', 'nonmetal', 'oxide', 'corrosion'] },
+            
+            // Biology Chapters
+            { title: 'Chapter 8 - Life Processes', desc: 'Nutrition, respiration, transport', icon: '🫀', url: 'notes.html#life', keywords: ['ch8', 'chapter8', 'life', 'processes', 'nutrition', 'respiration', 'transport'] },
+            { title: 'Chapter 9 - Reproduction', desc: 'How organisms reproduce', icon: '🌱', url: 'notes.html#reproduction', keywords: ['ch9', 'chapter9', 'reproduction', 'sexual', 'asexual', 'fertilization'] },
+            { title: 'Chapter 10 - Heredity', desc: 'Inheritance and variation', icon: '🧬', url: 'notes.html#heredity', keywords: ['ch10', 'chapter10', 'heredity', 'inheritance', 'genes', 'dna', 'variation'] },
+            
+            // Math Chapters
+            { title: 'Quadratic Equations', desc: 'Formulas and solutions', icon: '📈', url: 'formulas.html#quadratic', keywords: ['quadratic', 'equation', 'ax2', 'discriminant', 'roots'] },
+            { title: 'Trigonometry', desc: 'Sin, cos, tan formulas', icon: '📐', url: 'formulas.html#trigonometry', keywords: ['trigonometry', 'sin', 'cos', 'tan', 'angle', 'triangle'] },
+            { title: 'Probability', desc: 'Probability formulas', icon: '🎲', url: 'formulas.html#probability', keywords: ['probability', 'chance', 'event', 'sample', 'space'] }
+        ];
+
+        function initializeSearch() {
+            const searchBar = document.getElementById('searchBar');
+            const suggestions = document.getElementById('searchSuggestions');
+
+            if (!searchBar || !suggestions) return;
+
+            // Show suggestions on input
+            searchBar.addEventListener('input', function(e) {
+                const query = this.value.toLowerCase().trim();
+                
+                if (query.length === 0) {
+                    suggestions.classList.remove('active');
+                    return;
+                }
+
+                // Enhanced search logic
+                const filteredResults = searchData.filter(item => {
+                    // Direct keyword match
+                    const keywordMatch = item.keywords.some(keyword => keyword.includes(query));
+                    
+                    // Title match
+                    const titleMatch = item.title.toLowerCase().includes(query);
+                    
+                    // Description match
+                    const descMatch = item.desc.toLowerCase().includes(query);
+                    
+                    // Chapter number match (ch 1, chapter 1, ch1, etc)
+                    const chapterMatch = query.match(/ch\s*(\d+)|chapter\s*(\d+)/);
+                    if (chapterMatch) {
+                        const chNum = chapterMatch[1] || chapterMatch[2];
+                        return item.keywords.some(keyword => keyword.includes(`ch${chNum}`));
+                    }
+                    
+                    return keywordMatch || titleMatch || descMatch;
+                });
+
+                displaySuggestions(filteredResults, suggestions, query);
+            });
+
+            // Handle Enter key
+            searchBar.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const query = this.value.toLowerCase().trim();
+                    if (query.length > 0) {
+                        // Check for chapter search first
+                        const chapterMatch = query.match(/ch\s*(\d+)|chapter\s*(\d+)/);
+                        if (chapterMatch) {
+                            const chNum = chapterMatch[1] || chapterMatch[2];
+                            const match = searchData.find(item => 
+                                item.keywords.some(keyword => keyword.includes(`ch${chNum}`))
+                            );
+                            if (match) {
+                                window.location.href = match.url;
+                                return;
+                            }
+                        }
+                        
+                        // Regular keyword search
+                        const match = searchData.find(item => 
+                            item.keywords.some(keyword => keyword.includes(query))
+                        );
+                        if (match) {
+                            window.location.href = match.url;
+                        }
+                    }
+                }
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchBar.contains(e.target) && !suggestions.contains(e.target)) {
+                    suggestions.classList.remove('active');
+                }
+            });
+        }
+
+        function displaySuggestions(results, container, query) {
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="suggestion-item">
+                        <div class="suggestion-icon">❌</div>
+                        <div class="suggestion-text">
+                            <div class="suggestion-title">No results found for "${query}"</div>
+                            <div class="suggestion-desc">Try: "ch1 electricity", "formulas", "quiz", "notes"</div>
+                        </div>
+                    </div>`;
+                container.classList.add('active');
+                return;
+            }
+
+            // Limit to top 6 results
+            const limitedResults = results.slice(0, 6);
+            
+            container.innerHTML = limitedResults.map(item => `
+                <a href="${item.url}" class="suggestion-item">
+                    <div class="suggestion-icon">${item.icon}</div>
+                    <div class="suggestion-text">
+                        <div class="suggestion-title">${highlightMatch(item.title, query)}</div>
+                        <div class="suggestion-desc">${item.desc}</div>
+                    </div>
+                </a>
+            `).join('');
+
+            container.classList.add('active');
+        }
+
+        function highlightMatch(text, query) {
+            if (!query || query.length < 2) return text;
+            
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<strong>$1</strong>');
+        }
+
+        // Initialize search when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSearch();
+            updateTimeAndMotivation();
+            setInterval(updateTimeAndMotivation, 1000);
+        });
+
+        // Creator Text Animation
+        const creatorTexts = [
+            'Created by Ashif',
+            'Designed by Ashif', 
+            'Developed by Ashif',
+            'Built by Ashif',
+            'Made by Ashif'
+        ];
+        
+        let currentIndex = 0;
+        const creatorElement = document.getElementById('creatorText');
+        
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % creatorTexts.length;
+            creatorElement.textContent = creatorTexts[currentIndex];
+        }, 2000);
+
+        // Apply settings from setting.html if available
+        function applySettingsFromStorage() {
+            const fontSize = localStorage.getItem('fontSize');
+            const fontFamily = localStorage.getItem('fontFamily');
+            const animations = localStorage.getItem('animations');
+            
+            if (fontSize) {
+                document.documentElement.style.fontSize = fontSize;
+            }
+            
+            if (fontFamily) {
+                document.body.style.fontFamily = fontFamily;
+            }
+            
+            if (animations === 'false') {
+                document.documentElement.style.setProperty('--animation-duration', '0s');
+            }
+        }
+
+        // Call on page load
+        document.addEventListener('DOMContentLoaded', applySettingsFromStorage);
+
+        // Live Time & Motivation System
+        function updateTimeAndMotivation() {
+            const now = new Date();
+            
+            // Update time - Simple format
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            
+            const timeElement = document.getElementById('liveTime');
+            if (timeElement) {
+                timeElement.textContent = timeString;
+            }
+            
+            // Update date - Simple format
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const dayName = days[now.getDay()];
+            const monthName = months[now.getMonth()];
+            const date = now.getDate();
+            const year = now.getFullYear();
+            const dateString = `${dayName}, ${monthName} ${date}, ${year}`;
+            
+            const dateElement = document.getElementById('liveDate');
+            if (dateElement) {
+                dateElement.textContent = dateString;
+            }
+            
+            // Update motivation based on time
+            const hour = now.getHours();
+            const motivationElement = document.getElementById('motivationText');
+            const greetingElement = document.querySelector('.greeting');
+            
+            let greeting, motivation;
+            
+            if (hour >= 5 && hour < 12) {
+                greeting = 'Good Morning, Student! 🌅';
+                motivation = 'Start your day with determination! 💪';
+            } else if (hour >= 12 && hour < 17) {
+                greeting = 'Good Afternoon, Student! ☀️';
+                motivation = 'Keep pushing forward, you\'re doing great! 🚀';
+            } else if (hour >= 17 && hour < 21) {
+                greeting = 'Good Evening, Student! 🌆';
+                motivation = 'Perfect time for focused study! 📚';
+            } else {
+                greeting = 'Good Night, Student! 🌙';
+                motivation = 'Late night study? You\'re dedicated! ⭐';
+            }
+            
+            if (greetingElement) {
+                greetingElement.innerHTML = greeting;
+            }
+            if (motivationElement) {
+                motivationElement.textContent = motivation;
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTimeAndMotivation();
+            setInterval(updateTimeAndMotivation, 1000);
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.menu-btn');
+            
+            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

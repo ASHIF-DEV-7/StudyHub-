@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Creator - Millennium Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0f1c;
+            --bg-secondary: #1a1a2e;
+            --bg-card: rgba(26, 26, 46, 0.8);
+            --accent-cyan: #7af0ff;
+            --accent-pink: #ff7af6;
+            --text-primary: #ffffff;
+            --text-secondary: #b8c5d1;
+            --text-muted: #6b7280;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        .light-theme {
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #e2e8f0;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Grid overlay and noise texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(122, 240, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 122, 246, 0.1) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(122, 240, 255, 0.5);
+        }
+
+        .theme-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            box-shadow: 0 0 20px rgba(122, 240, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Glass Card Base */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(122, 240, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Form Section */
+        .form-section {
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 10px rgba(122, 240, 255, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 
+                0 0 20px rgba(122, 240, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Avatar Upload */
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 2px solid var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(122, 240, 255, 0.3);
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-placeholder {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(122, 240, 255, 0.3);
+        }
+
+        .file-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(122, 240, 255, 0.4);
+        }
+
+        /* Subject Chips */
+        .subjects-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .subject-chip {
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(122, 240, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .subject-chip:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(122, 240, 255, 0.3);
+        }
+
+        .chip-remove {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+        }
+
+        .add-subject {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .subject-input {
+            flex: 1;
+            padding: 0.4rem 0.8rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .add-btn {
+            background: var(--accent-cyan);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .add-btn:hover {
+            background: var(--accent-pink);
+            transform: translateY(-1px);
+        }
+
+        /* Preview Section */
+        .preview-section {
+            padding: 2rem;
+            position: sticky;
+            top: 120px;
+        }
+
+        .profile-preview {
+            text-align: center;
+        }
+
+        .preview-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: var(--glass-bg);
+            border: 3px solid var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 
+                0 0 30px rgba(122, 240, 255, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .preview-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .preview-username {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .preview-bio {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-subjects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-goal {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+            color: white;
+            box-shadow: 0 4px 15px rgba(122, 240, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(122, 240, 255, 0.4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Color Picker */
+        .color-picker {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-option.active {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(122, 240, 255, 0.5);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .header-content {
+                padding: 1rem;
+            }
+
+            .form-section, .preview-section {
+                padding: 1.5rem;
+            }
+
+            .preview-section {
+                position: static;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Profile Creator 2025</div>
+            <div class="theme-controls">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Form Section -->
+        <div class="glass-card">
+            <div class="form-section">
+                <h2 class="section-title">Create Your Profile</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Avatar</label>
+                    <div class="avatar-upload">
+                        <div class="avatar-preview">
+                            <span class="avatar-placeholder">👤</span>
+                        </div>
+                        <input type="file" id="avatarInput" class="file-input" accept="image/*">
+                        <label for="avatarInput" class="file-label">Upload Photo</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name</label>
+                    <input type="text" id="name" class="form-input" placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" id="username" class="form-input" placeholder="@username">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="bio">Bio</label>
+                    <textarea id="bio" class="form-textarea" placeholder="Tell us about yourself..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Interests/Skills</label>
+                    <div class="subjects-container" id="subjectsContainer"></div>
+                    <div class="add-subject">
+                        <input type="text" id="subjectInput" class="subject-input" placeholder="Add interest">
+                        <button class="add-btn" onclick="addSubject()">Add</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="goal">Goal/Tagline</label>
+                    <input type="text" id="goal" class="form-input" placeholder="Your personal motto or goal">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Accent Color</label>
+                    <div class="color-picker">
+                        <div class="color-option active" style="background: linear-gradient(45deg, #7af0ff, #ff7af6)" onclick="setAccentColor('#7af0ff', '#ff7af6')"></div>
+                        <div class="color-option" style="background: linear-gradient(45deg, #00f5ff, #ff00aa)" onclick="setAccentColor('#00f5ff', '#ff00aa')"></div>
+                        <div class="color-option" style="background: linear-gradient(45deg, #39ff14, #ff1439)" onclick="setAccentColor('#39ff14', '#ff1439')"></div>
+                        <div class="color-option" style="background: linear-gradient(45deg, #ffaa00, #aa00ff)" onclick="setAccentColor('#ffaa00', '#aa00ff')"></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="saveProfile()">Save Profile</button>
+                    <button class="btn btn-secondary" onclick="exportProfile()">Export JSON</button>
+                    <label for="importInput" class="btn btn-secondary" style="text-align: center;">Import JSON</label>
+                    <input type="file" id="importInput" style="display: none;" accept=".json" onchange="importProfile()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="glass-card">
+            <div class="preview-section">
+                <h2 class="section-title">Live Preview</h2>
+                <div class="profile-preview">
+                    <div class="preview-avatar">
+                        <span class="avatar-placeholder">👤</span>
+                    </div>
+                    <div class="preview-name">Your Name</div>
+                    <div class="preview-username">@username</div>
+                    <div class="preview-bio">Your bio will appear here...</div>
+                    <div class="preview-subjects"></div>
+                    <div class="preview-goal">Your goal or tagline...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let profileData = {
+            name: '',
+            username: '',
+            bio: '',
+            subjects: [],
+            goal: '',
+            avatar: null
+        };
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const toggle = document.querySelector('.theme-toggle');
+            if (document.body.classList.contains('light-theme')) {
+                toggle.textContent = '☀️ Light';
+            } else {
+                toggle.textContent = '🌙 Dark';
+            }
+        }
+
+        // Avatar Upload
+        document.getElementById('avatarInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatarUrl = e.target.result;
+                    profileData.avatar = avatarUrl;
+                    
+                    // Update form preview
+                    const formPreview = document.querySelector('.avatar-preview');
+                    formPreview.innerHTML = `<img src="${avatarUrl}" alt="Avatar">`;
+                    
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form Updates
+        document.getElementById('name').addEventListener('input', function() {
+            profileData.name = this.value;
+            updatePreview();
+        });
+
+        document.getElementById('username').addEventListener('input', function() {
+            profileData.username = this.value;
+            updatePreview();
+        });
+
+        document.getElementById('bio').addEventListener('input', function() {
+            profileData.bio = this.value;
+            updatePreview();
+        });
+
+        document.getElementById('goal').addEventListener('input', function() {
+            profileData.goal = this.value;
+            updatePreview();
+        });
+
+        // Subject Management
+        function addSubject() {
+            const input = document.getElementById('subjectInput');
+            const subject = input.value.trim();
+            
+            if (subject && !profileData.subjects.includes(subject)) {
+                profileData.subjects.push(subject);
+                input.value = '';
+                updateSubjects();
+                updatePreview();
+            }
+        }
+
+        function removeSubject(index) {
+            profileData.subjects.splice(index, 1);
+            updateSubjects();
+            updatePreview();
+        }
+
+        function updateSubjects() {
+            const container = document.getElementById('subjectsContainer');
+            container.innerHTML = '';
+            
+            profileData.subjects.forEach((subject, index) => {
+                const chip = document.createElement('div');
+                chip.className = 'subject-chip';
+                chip.innerHTML = `
+                    ${subject}
+                    <button class="chip-remove" onclick="removeSubject(${index})">×</button>
+                `;
+                container.appendChild(chip);
+            });
+        }
+
+        // Enter key for adding subjects
+        document.getElementById('subjectInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addSubject();
+            }
+        });
+
+        // Update Preview
+        function updatePreview() {
+            const previewAvatar = document.querySelector('.preview-avatar');
+            const previewName = document.querySelector('.preview-name');
+            const previewUsername = document.querySelector('.preview-username');
+            const previewBio = document.querySelector('.preview-bio');
+            const previewSubjects = document.querySelector('.preview-subjects');
+            const previewGoal = document.querySelector('.preview-goal');
+
+            if (profileData.avatar) {
+                previewAvatar.innerHTML = `<img src="${profileData.avatar}" alt="Avatar">`;
+            } else {
+                previewAvatar.innerHTML = '<span class="avatar-placeholder">👤</span>';
+            }
+
+            previewName.textContent = profileData.name || 'Your Name';
+            previewUsername.textContent = profileData.username ? `@${profileData.username}` : '@username';
+            previewBio.textContent = profileData.bio || 'Your bio will appear here...';
+            previewGoal.textContent = profileData.goal || 'Your goal or tagline...';
+
+            previewSubjects.innerHTML = '';
+            profileData.subjects.forEach(subject => {
+                const chip = document.createElement('div');
+                chip.className = 'subject-chip';
+                chip.textContent = subject;
+                previewSubjects.appendChild(chip);
+            });
+        }
+
+        // Accent Color
+        function setAccentColor(cyan, pink) {
+            document.documentElement.style.setProperty('--accent-cyan', cyan);
+            document.documentElement.style.setProperty('--accent-pink', pink);
+            
+            // Update active color picker
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Save/Load
+        function saveProfile() {
+            localStorage.setItem('millenniumProfile', JSON.stringify(profileData));
+            alert('Profile saved successfully! ✨');
+        }
+
+        function exportProfile() {
+            const dataStr = JSON.stringify(profileData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'profile.json';
+            link.click();
+        }
+
+        function importProfile() {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        profileData = data;
+                        loadProfileToForm();
+                        updatePreview();
+                        alert('Profile imported successfully! 🚀');
+                    } catch (error) {
+                        alert('Invalid JSON file!');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function loadProfileToForm() {
+            document.getElementById('name').value = profileData.name || '';
+            document.getElementById('username').value = profileData.username || '';
+            document.getElementById('bio').value = profileData.bio || '';
+            document.getElementById('goal').value = profileData.goal || '';
+            
+            if (profileData.avatar) {
+                const formPreview = document.querySelector('.avatar-preview');
+                formPreview.innerHTML = `<img src="${profileData.avatar}" alt="Avatar">`;
+            }
+            
+            updateSubjects();
+        }
+
+        // Load saved profile on page load
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('millenniumProfile');
+            if (saved) {
+                profileData = JSON.parse(saved);
+                loadProfileToForm();
+                updatePreview();
+            }
+        });
+
+        // Initialize
+        updatePreview();
+    </script>
+</body>
+</html>

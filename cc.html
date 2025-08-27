@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control and Coordination Notes</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --text-color: #e0e7ff;
+            --primary: #00ddeb;
+            --secondary: #ff006e;
+            --accent: #00ff9f;
+            --card-front-bg: rgba(40, 40, 70, 0.9);
+            --card-back-bg: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(0, 221, 235, 0.3);
+            --header-bg: rgba(26, 26, 46, 0.85);
+            --footer-bg: #1a1a2e;
+            --sidenav-bg: rgba(26, 26, 46, 0.9);
+            --sidenav-dark-bg: #1a1a2e;
+            --progress-fill: #00ddeb;
+        }
+
+        .dark {
+            --bg-color: #e6f0fa;
+            --text-color: #1a1a2e;
+            --primary: #0288d1;
+            --secondary: #d81b60;
+            --accent: #00c853;
+            --card-front-bg: rgba(200, 200, 230, 0.9);
+            --card-back-bg: rgba(0, 0, 0, 0.1);
+            --card-border: rgba(2, 136, 209, 0.3);
+            --header-bg: rgba(230, 240, 250, 0.85);
+            --footer-bg: #1a1a2e;
+            --sidenav-bg: rgba(230, 240, 250, 0.9);
+            --sidenav-dark-bg: #e6f0fa;
+            --progress-fill: #0288d1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Particle Background */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.6em;
+            color: var(--primary);
+        }
+
+        .side-nav {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            width: 200px;
+            height: calc(100% - 60px);
+            background: var(--sidenav-bg);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 900;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+
+        .dark .side-nav {
+            background: var(--sidenav-dark-bg);
+        }
+
+        .side-nav.open {
+            transform: translateX(0);
+        }
+
+        .side-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-nav li {
+            margin-bottom: 15px;
+        }
+
+        .side-nav button {
+            text-decoration: none;
+            color: var(--text-color);
+            background: none;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 10px 15px;
+            transition: background 0.3s, color 0.3s, transform 0.2s;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .side-nav button:hover {
+            background: var(--primary);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        #side-toggle {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 1.6em;
+            cursor: pointer;
+            color: var(--primary);
+            padding: 5px 10px;
+            transition: color 0.3s, transform 0.2s;
+            z-index: 1100;
+        }
+
+        #side-toggle:hover {
+            color: var(--secondary);
+            transform: rotate(90deg);
+        }
+
+        #close-nav {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: color 0.3s, transform 0.2s;
+        }
+
+        #close-nav:hover {
+            color: var(--primary);
+            transform: scale(1.2);
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            margin-left: 0;
+            transition: margin-left 0.3s;
+            flex: 1;
+        }
+
+        .notes-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            column-count: 2;
+            column-gap: 20px;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+            perspective: 1000px;
+            break-inside: avoid;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-front {
+            background: var(--card-front-bg);
+            border: 1px solid var(--card-border);
+            color: var(--primary);
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: box-shadow 0.3s;
+        }
+
+        .card-front:hover {
+            box-shadow: 0 6px 20px var(--card-border);
+        }
+
+        .card-back {
+            background: var(--card-back-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            overflow-y: auto;
+        }
+
+        .card-back h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .card-back ul {
+            list-style-type: disc;
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        .card-back li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .progress-circle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: conic-gradient(var(--progress-fill) 0% var(--progress), #2d3748 0% 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            font-size: 0.8em;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 800;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--footer-bg);
+            color: #ffffff;
+            border-top: 1px solid #333;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        @media (min-width: 768px) {
+            .side-nav {
+                transform: translateX(0);
+            }
+
+            #side-toggle {
+                display: none;
+            }
+
+            main {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .notes-section {
+                column-count: 1;
+            }
+
+            .card {
+                height: 350px;
+            }
+
+            .card-back h2 {
+                font-size: 1.2em;
+            }
+
+            .card-back li {
+                font-size: 0.9em;
+            }
+
+            .side-nav.open + main {
+                pointer-events: none;
+                overflow: hidden;
+            }
+
+            .progress-circle {
+                width: 40px;
+                height: 40px;
+                font-size: 0.7em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+
+    <header>
+        <button id="side-toggle" onclick="toggleSideNav()">☰</button>
+        <h1>Control and Coordination</h1>
+    </header>
+
+    <aside class="side-nav">
+        <button id="close-nav" onclick="toggleSideNav()">✖</button>
+        <ul>
+            <li><button onclick="toggleMode()">Dark/Light Mode Toggle</button></li>
+        </ul>
+    </aside>
+
+    <main>
+        <div class="notes-section">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        Nervous System
+                    </div>
+                    <div class="card-back">
+                        <h2>Nervous System</h2>
+                        <ul>
+                            <li>Definition: Network of neurons controlling body responses via electrical impulses.</li>
+                            <li>Components: Brain, spinal cord, nerves; neurons (sensory, motor, relay).</li>
+                            <li>Function: Receives stimuli, processes information, coordinates actions.</li>
+                            <li>Examples:
+                                <ul>
+                                    <li>Touching a hot surface triggers reflex (withdrawal reflex).</li>
+                                    <li>Eyes detect light, brain interprets image (vision).</li>
+                                    <li>Smelling food, brain signals hunger (salivation).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        Reflex Action
+                    </div>
+                    <div class="card-back">
+                        <h2>Reflex Action</h2>
+                        <ul>
+                            <li>Definition: Involuntary, rapid response to a stimulus via reflex arc.</li>
+                            <li>Pathway: Receptor → Sensory neuron → Spinal cord → Motor neuron → Effector.</li>
+                            <li>Significance: Protects from harm, requires no conscious thought.</li>
+                            <li>Examples:
+                                <ul>
+                                    <li>Knee-jerk reflex when tapped (patellar reflex).</li>
+                                    <li>Pulling hand from hot object (withdrawal reflex).</li>
+                                    <li>Blinking when dust enters eye (blink reflex).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        Human Brain
+                    </div>
+                    <div class="card-back">
+                        <h2>Human Brain</h2>
+                        <ul>
+                            <li>Definition: Central control unit of nervous system, processes stimuli.</li>
+                            <li>Parts: Cerebrum (thinking, memory), Cerebellum (balance), Medulla (involuntary actions).</li>
+                            <li>Function: Controls voluntary actions, reflexes, emotions, memory.</li>
+                            <li>Examples:
+                                <ul>
+                                    <li>Cerebrum: Solving a math problem.</li>
+                                    <li>Cerebellum: Maintaining balance while cycling.</li>
+                                    <li>Medulla: Regulating heartbeat during exercise.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        Coordination in Plants
+                    </div>
+                    <div class="card-back">
+                        <h2>Coordination in Plants</h2>
+                        <ul>
+                            <li>Definition: Chemical coordination via plant hormones (no nervous system).</li>
+                            <li>Types: Tropism (directional, e.g., phototropism), Nastic movements (non-directional).</li>
+                            <li>Hormones: Auxin (growth), Gibberellin (stem elongation), Abscisic acid (stress response).</li>
+                            <li>Examples:
+                                <ul>
+                                    <li>Sunflower bends toward light (phototropism).</li>
+                                    <li>Mimosa pudica leaves close on touch (thigmotropism).</li>
+                                    <li>Roots grow downward (geotropism).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        Hormones in Animals
+                    </div>
+                    <div class="card-back">
+                        <h2>Hormones in Animals</h2>
+                        <ul>
+                            <li>Definition: Chemical messengers secreted by endocrine glands, regulating body functions.</li>
+                            <li>Examples: Adrenaline (fight/flight), Thyroxine (metabolism), Insulin (blood sugar).</li>
+                            <li>Function: Coordinate growth, metabolism, reproduction, stress response.</li>
+                            <li>Examples:
+                                <ul>
+                                    <li>Adrenaline increases heart rate during danger.</li>
+                                    <li>Insulin lowers blood sugar after a meal.</li>
+                                    <li>Thyroxine boosts metabolism in cold weather.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="progress-circle">0%</div>
+
+    <footer>
+        <p>Copyright © 2025. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark');
+            updateProgressCircle();
+        }
+
+        function toggleSideNav() {
+            const sideNav = document.querySelector('.side-nav');
+            sideNav.classList.toggle('open');
+            if (sideNav.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Card flip functionality
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+                updateProgressCircle();
+            });
+        });
+
+        // Particle animation
+        function createParticles() {
+            const particlesDiv = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = `${Math.random() * 3 + 1}px`;
+                particle.style.height = particle.style.width;
+                particle.style.background = 'rgba(255, 255, 255, 0.3)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animation = `float ${Math.random() * 5 + 5}s infinite`;
+                particlesDiv.appendChild(particle);
+            }
+        }
+
+        // Progress circle update
+        function updateProgressCircle() {
+            const cards = document.querySelectorAll('.card');
+            const flippedCards = document.querySelectorAll('.card.flipped').length;
+            const progress = (flippedCards / cards.length) * 100;
+            const progressCircle = document.querySelector('.progress-circle');
+            progressCircle.style.background = `conic-gradient(var(--progress-fill) ${progress}%, #2d3748 ${progress}% 100%)`;
+            progressCircle.textContent = `${Math.round(progress)}%`;
+        }
+
+        // Particle animation keyframes
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0); opacity: 0.3; }
+                50% { opacity: 0.7; }
+                100% { transform: translateY(-100vh); opacity: 0.3; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // Initialize particles
+        createParticles();
+
+        // Update progress on load
+        updateProgressCircle();
+    </script>
+</body>
+<script src="script.js"></script>
+</html>
