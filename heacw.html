@@ -3,501 +3,919 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Eye and the Colourful World Notes</title>
+    <title>Human Eye and Colourful World - Class 10 CBSE</title>
     <style>
-        :root {
-            --bg-color: linear-gradient(135deg, #f0f5f5, #e9ecef);
-            --text-color: #1e272e;
-            --primary: #00a8e8;
-            --secondary: #ff2e63;
-            --accent: #aacc00;
-            --content-bg: #ffffff;
-            --content-border: #b2bec3;
-            --header-bg: #e9ecef;
-            --footer-bg: #1e272e;
-            --sidenav-bg: #e9ecef;
-            --sidenav-dark-bg: #1e272e;
-            --dot-bg: #b2bec3;
-            --dot-active-bg: #00a8e8;
-        }
-
-        .dark {
-            --bg-color: linear-gradient(135deg, #1e272e, #495057);
-            --text-color: #e9ecef;
-            --primary: #00d4ff;
-            --secondary: #ff577f;
-            --accent: #ccff33;
-            --content-bg: #343a40;
-            --content-border: #6c757d;
-            --header-bg: #1e272e;
-            --footer-bg: #1e272e;
-            --sidenav-bg: #1e272e;
-            --dot-bg: #6c757d;
-            --dot-active-bg: #00d4ff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         header {
-            background-color: var(--header-bg);
-            padding: 15px 20px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: fixed;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-in;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: rgba(255,255,255,0.95);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #ff6b6b;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #4ecdc4;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #4ecdc4;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .eye-diagram {
             width: 100%;
-            top: 0;
-            z-index: 1000;
+            max-width: 600px;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.6em;
-            color: var(--primary);
-        }
-
-        .side-nav {
-            position: fixed;
-            left: 0;
-            top: 60px;
-            width: 180px;
-            height: calc(100% - 60px);
-            background-color: var(--sidenav-bg);
-            padding: 20px;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
-            z-index: 900;
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-            overflow-y: auto;
-        }
-
-        .dark .side-nav {
-            background-color: var(--sidenav-dark-bg);
-        }
-
-        .side-nav.open {
-            transform: translateX(0);
-        }
-
-        .side-nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .side-nav li {
-            margin-bottom: 15px;
-        }
-
-        .side-nav button {
-            text-decoration: none;
-            color: var(--text-color);
-            background: none;
-            border: 1px solid var(--primary);
-            border-radius: 6px;
-            padding: 10px 15px;
-            transition: background 0.3s, color 0.3s;
-            font-size: 0.95em;
-            font-weight: 500;
-            cursor: pointer;
-            width: 100%;
+        .interactive-demo {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
             text-align: center;
         }
 
-        .side-nav button:hover {
-            background: var(--primary);
-            color: #ffffff;
-        }
-
-        #side-toggle {
-            position: fixed;
-            top: 15px;
-            left: 20px;
-            background: none;
+        .demo-button {
+            background: #ff6b6b;
+            color: white;
             border: none;
-            font-size: 1.6em;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
             cursor: pointer;
-            color: var(--primary);
-            padding: 5px 10px;
-            transition: color 0.3s;
-            z-index: 1100;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.3);
         }
 
-        #side-toggle:hover {
-            color: var(--secondary);
+        .demo-button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,107,107,0.4);
         }
 
-        #close-nav {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            color: var(--secondary);
-            cursor: pointer;
-            transition: color 0.3s;
+        .color-wheel {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            border-radius: 50%;
+            background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+            animation: rotate 10s linear infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        #close-nav:hover {
-            color: var(--primary);
+        .spectrum {
+            height: 100px;
+            background: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation: shimmer 3s ease-in-out infinite;
         }
 
-        main {
-            margin-top: 80px;
-            padding: 20px;
-            margin-left: 0;
-            transition: margin-left 0.3s;
-            flex: 1;
+        .formula-box {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 5px solid #e17055;
+            font-size: 1.1rem;
+            text-align: center;
         }
 
-        .notes-section {
-            max-width: 900px;
-            margin: 0 auto;
+        .key-point {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 5px solid #00b894;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #dda0dd, #98fb98);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .ray-diagram {
             position: relative;
-        }
-
-        .carousel {
-            position: relative;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 15px;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
         }
 
-        .carousel-inner {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
+        .ray {
+            position: absolute;
+            height: 2px;
+            background: #ff6b6b;
+            animation: drawRay 2s ease-in-out infinite;
         }
 
-        .topic-content {
-            flex: 0 0 100%;
-            background-color: var(--content-bg);
-            border: 2px solid var(--content-border);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .lens {
+            width: 80px;
+            height: 200px;
+            background: rgba(255,255,255,0.3);
+            border: 3px solid #4ecdc4;
+            border-radius: 50px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .topic-content h2 {
-            font-size: 1.3em;
-            color: var(--primary);
-            margin-top: 0;
-            margin-bottom: 15px;
+        .nav-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
 
-        .topic-content ul {
-            list-style-type: disc;
-            margin: 10px 0 0 20px;
-            padding: 0;
-        }
-
-        .topic-content li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-        .carousel-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-        }
-
-        .carousel-nav button {
-            background: none;
+        .nav-button {
+            background: rgba(255,107,107,0.9);
+            color: white;
             border: none;
-            font-size: 1.5em;
-            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 5px;
             cursor: pointer;
-            padding: 10px;
-            transition: color 0.3s, transform 0.2s;
+            transition: all 0.3s ease;
         }
 
-        .carousel-nav button:hover {
-            color: var(--secondary);
-            transform: scale(1.2);
+        .nav-button:hover {
+            background: rgba(255,107,107,1);
+            transform: scale(1.05);
         }
 
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
-            background-color: var(--dot-bg);
-            border-radius: 50%;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes drawRay {
+            0% { width: 0; opacity: 0; }
+            50% { opacity: 1; }
+            100% { width: 100%; opacity: 0.7; }
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: background 0.3s ease;
         }
 
-        .dot.active {
-            background-color: var(--dot-active-bg);
-            transform: scale(1.4);
+        .quiz-option:hover {
+            background: #e9ecef;
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: var(--footer-bg);
-            color: #ffffff;
-            border-top: 1px solid #333;
+        .quiz-option.correct {
+            background: #d4edda;
+            color: #155724;
         }
 
-        footer p {
-            margin: 0;
-            font-size: 0.9em;
+        .quiz-option.wrong {
+            background: #f8d7da;
+            color: #721c24;
         }
 
-        @media (min-width: 768px) {
-            .side-nav {
-                transform: translateX(0);
-            }
-
-            #side-toggle {
-                display: none;
-            }
-
-            main {
-                margin-left: 180px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .carousel-nav button {
-                font-size: 1.2em;
-            }
-
-            .carousel-dots {
-                flex-wrap: wrap;
-            }
-
-            .notes-section {
-                padding: 10px;
-            }
-
-            .topic-content h2 {
-                font-size: 1.2em;
-            }
-
-            .topic-content li {
-                font-size: 0.95em;
-            }
-
-            .side-nav.open + main {
-                pointer-events: none;
-                overflow: hidden;
-            }
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .nav-menu { position: relative; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <button id="side-toggle" onclick="toggleSideNav()">☰</button>
-        <h1>Human Eye and the Colourful World</h1>
-    </header>
+    <div class="nav-menu">
+        <button class="nav-button" onclick="scrollToSection('structure')">Eye Structure</button>
+        <button class="nav-button" onclick="scrollToSection('defects')">Eye Defects</button>
+        <button class="nav-button" onclick="scrollToSection('colors')">Colors</button>
+        <button class="nav-button" onclick="scrollToSection('quiz')">Quiz</button>
+    </div>
 
-    <aside class="side-nav">
-        <button id="close-nav" onclick="toggleSideNav()">✖</button>
-        <ul>
-            <li><button onclick="toggleMode()">Dark/Light Mode Toggle</button></li>
-        </ul>
-    </aside>
+    <div class="container">
+        <header>
+            <h1>👁️ Human Eye and Colourful World 🌈</h1>
+            <p class="subtitle">Class 10 CBSE Physics Chapter</p>
+        </header>
 
-    <main>
-        <div class="notes-section">
-            <div class="carousel">
-                <div class="carousel-inner">
-                    <div class="topic-content">
-                        <h2>Structure of the Human Eye</h2>
-                        <ul>
-                            <li>Definition: Light-sensitive organ enabling vision, works like a camera.</li>
-                            <li>Parts: Cornea (refracts light), Iris (controls pupil size), Lens (focuses light), Retina (image formation), Optic nerve (transmits signals).</li>
-                            <li>Function: Light enters cornea, focused by lens, forms image on retina, signals sent to brain.</li>
-                            <li>Examples:
-                                <ul>
-                                    <li>Cornea bends light to focus on retina (like a camera lens).</li>
-                                    <li>Iris adjusts pupil in bright light (e.g., sunny day) vs. dim light (e.g., night).</li>
-                                    <li>Retina detects colors in a rainbow due to cone cells.</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topic-content">
-                        <h2>Power of Accommodation</h2>
-                        <ul>
-                            <li>Definition: Ability of the eye lens to adjust focal length for near and far objects.</li>
-                            <li>Mechanism: Ciliary muscles change lens shape (thicker for near, thinner for far).</li>
-                            <li>Range: Near point (25 cm), far point (infinity).</li>
-                            <li>Examples:
-                                <ul>
-                                    <li>Reading a book (lens thickens for 25 cm focus).</li>
-                                    <li>Viewing distant stars (lens thins for infinity).</li>
-                                    <li>Driving (lens adjusts for road signs at varying distances).</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topic-content">
-                        <h2>Defects of Vision</h2>
-                        <ul>
-                            <li><strong>Myopia</strong> (Near-sightedness): Sees near objects clearly, far objects blurry; corrected with concave lens.</li>
-                            <li><strong>Hypermetropia</strong> (Far-sightedness): Sees far objects clearly, near objects blurry; corrected with convex lens.</li>
-                            <li><strong>Presbyopia</strong>: Age-related loss of accommodation; corrected with bifocal lens.</li>
-                            <li>Examples:
-                                <ul>
-                                    <li>Myopia: Difficulty reading road signs (corrected with concave glasses).</li>
-                                    <li>Hypermetropia: Struggling to read a book (corrected with convex glasses).</li>
-                                    <li>Presbyopia: Elderly needing bifocals for reading and distance.</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topic-content">
-                        <h2>Refraction of Light through a Prism</h2>
-                        <ul>
-                            <li>Definition: Light bends when passing through a prism, splitting into colors (dispersion).</li>
-                            <li>Angle of deviation: Depends on angle of incidence and prism material.</li>
-                            <li>Spectrum: Violet bends most, red least (VIBGYOR).</li>
-                            <li>Examples:
-                                <ul>
-                                    <li>Rainbow formation (water droplets act as prisms).</li>
-                                    <li>Prism in a spectrometer splits light into colors.</li>
-                                    <li>Decorative glass prisms create rainbow patterns.</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topic-content">
-                        <h2>Dispersion of Light</h2>
-                        <ul>
-                            <li>Definition: Splitting of white light into its constituent colors (VIBGYOR).</li>
-                            <li>Cause: Different wavelengths refract differently (violet shortest, red longest).</li>
-                            <li>Applications: Spectroscopy, rainbow formation, optical instruments.</li>
-                            <li>Examples:
-                                <ul>
-                                    <li>Rainbow after rain due to dispersion in water droplets.</li>
-                                    <li>Prism creating a spectrum on a wall.</li>
-                                    <li>CD reflecting light in rainbow colors.</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topic-content">
-                        <h2>Scattering of Light</h2>
-                        <ul>
-                            <li>Definition: Light spreads in all directions when passing through particles (e.g., air molecules).</li>
-                            <li>Tyndall Effect: Scattering by colloidal particles, visible beam in fog.</li>
-                            <li>Applications: Blue sky, red sunset, fog lights.</li>
-                            <li>Examples:
-                                <ul>
-                                    <li>Blue sky due to scattering of shorter blue wavelengths.</li>
-                                    <li>Red sunset as longer red wavelengths pass through atmosphere.</li>
-                                    <li>Headlight beams visible in fog (Tyndall effect).</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topic-content">
-                        <h2>Atmospheric Refraction</h2>
-                        <ul>
-                            <li>Definition: Bending of light due to varying refractive index of atmosphere.</li>
-                            <li>Effects: Twinkling of stars, early sunrise, delayed sunset.</li>
-                            <li>Cause: Density of air decreases with altitude, bending light.</li>
-                            <li>Examples:
-                                <ul>
-                                    <li>Stars twinkle due to atmospheric turbulence.</li>
-                                    <li>Sun visible before actual sunrise due to refraction.</li>
-                                    <li>Mirage in deserts (hot air refracts light).</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+        <section class="section" id="structure">
+            <h2>🔬 Structure of Human Eye</h2>
+            
+            <svg class="eye-diagram" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Eye outline -->
+                <ellipse cx="300" cy="150" rx="280" ry="120" fill="#f0f0f0" stroke="#333" stroke-width="3"/>
+                
+                <!-- Cornea -->
+                <ellipse cx="120" cy="150" rx="40" ry="60" fill="#87CEEB" stroke="#4682B4" stroke-width="2"/>
+                <text x="60" y="120" font-size="14" fill="#333">Cornea</text>
+                
+                <!-- Iris -->
+                <circle cx="200" cy="150" r="35" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+                <text x="160" y="200" font-size="14" fill="#333">Iris</text>
+                
+                <!-- Pupil -->
+                <circle cx="200" cy="150" r="15" fill="#000"/>
+                <text x="170" y="230" font-size="14" fill="#333">Pupil</text>
+                
+                <!-- Lens -->
+                <ellipse cx="250" cy="150" rx="25" ry="40" fill="#FFE4B5" stroke="#DEB887" stroke-width="2"/>
+                <text x="220" y="110" font-size="14" fill="#333">Lens</text>
+                
+                <!-- Retina -->
+                <path d="M 320 80 Q 520 150 320 220" fill="none" stroke="#FF6347" stroke-width="3"/>
+                <text x="450" y="140" font-size="14" fill="#333">Retina</text>
+                
+                <!-- Optic nerve -->
+                <rect x="520" y="140" width="60" height="20" fill="#8A2BE2" stroke="#4B0082" stroke-width="2"/>
+                <text x="490" y="180" font-size="14" fill="#333">Optic Nerve</text>
+                
+                <!-- Light rays -->
+                <line x1="20" y1="130" x2="120" y2="140" stroke="#FFD700" stroke-width="3" opacity="0.8"/>
+                <line x1="20" y1="150" x2="120" y2="150" stroke="#FFD700" stroke-width="3" opacity="0.8"/>
+                <line x1="20" y1="170" x2="120" y2="160" stroke="#FFD700" stroke-width="3" opacity="0.8"/>
+            </svg>
+
+            <div class="key-point">
+                <h3>Key Parts of the Eye:</h3>
+                <ul>
+                    <li><strong>Cornea:</strong> Transparent front layer that bends light</li>
+                    <li><strong>Iris:</strong> Colored part that controls light entry</li>
+                    <li><strong>Pupil:</strong> Opening that allows light to enter</li>
+                    <li><strong>Lens:</strong> Focuses light onto the retina</li>
+                    <li><strong>Retina:</strong> Light-sensitive screen where images form</li>
+                    <li><strong>Optic Nerve:</strong> Carries signals to the brain</li>
+                </ul>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🎯 How Eye Focuses Light</h3>
+                <p>Click the button to see how the eye lens adjusts!</p>
+                <button class="demo-button" onclick="demonstrateFocusing()">Show Focusing Action</button>
+                <div id="focusing-demo" style="margin-top: 20px; font-size: 18px;"></div>
+            </div>
+        </section>
+
+        <section class="section" id="accommodation">
+            <h2>🔄 Power of Accommodation</h2>
+            
+            <div class="formula-box">
+                <strong>Power of Lens (P) = 1/f (in metres)</strong><br>
+                Unit: Dioptre (D)
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>👁️ Near Point</h3>
+                    <p>Minimum distance at which eye can see clearly</p>
+                    <strong>Normal Eye: 25 cm</strong>
                 </div>
-                <div class="carousel-nav">
-                    <button class="prev">◄</button>
-                    <div class="carousel-dots"></div>
-                    <button class="next">►</button>
+                <div class="card">
+                    <h3>👁️ Far Point</h3>
+                    <p>Maximum distance at which eye can see clearly</p>
+                    <strong>Normal Eye: Infinity</strong>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <footer>
-        <p>Copyright © 2025. All rights reserved.</p>
-    </footer>
+            <div class="key-point">
+                The ability of the eye lens to change its focal length is called <strong>accommodation</strong>. This is controlled by ciliary muscles.
+            </div>
+        </section>
+
+        <section class="section" id="defects">
+            <h2>🚫 Defects of Vision</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>😵 Myopia (Short-sightedness)</h3>
+                    <p><strong>Problem:</strong> Can see near objects clearly but not distant objects</p>
+                    <p><strong>Cause:</strong> Eyeball too long or lens too curved</p>
+                    <p><strong>Correction:</strong> Concave lens</p>
+                    <div class="formula-box">Power = -1/f (negative)</div>
+                </div>
+                
+                <div class="card">
+                    <h3>😤 Hypermetropia (Long-sightedness)</h3>
+                    <p><strong>Problem:</strong> Can see distant objects clearly but not near objects</p>
+                    <p><strong>Cause:</strong> Eyeball too short or lens too flat</p>
+                    <p><strong>Correction:</strong> Convex lens</p>
+                    <div class="formula-box">Power = +1/f (positive)</div>
+                </div>
+                
+                <div class="card">
+                    <h3>👴 Presbyopia (Old-age vision)</h3>
+                    <p><strong>Problem:</strong> Both near and far vision affected</p>
+                    <p><strong>Cause:</strong> Loss of accommodation power with age</p>
+                    <p><strong>Correction:</strong> Bifocal lenses</p>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>🔍 Vision Defect Simulator</h3>
+                <button class="demo-button" onclick="showDefect('myopia')">Myopia</button>
+                <button class="demo-button" onclick="showDefect('hypermetropia')">Hypermetropia</button>
+                <button class="demo-button" onclick="showDefect('presbyopia')">Presbyopia</button>
+                <div id="defect-demo" style="margin-top: 20px;"></div>
+            </div>
+        </section>
+
+        <section class="section" id="colors">
+            <h2>🌈 The Colourful World</h2>
+
+            <div class="spectrum"></div>
+
+            <div class="key-point">
+                <h3>🔬 Dispersion of Light</h3>
+                <p>When white light passes through a prism, it splits into seven colors: <strong>VIBGYOR</strong></p>
+                <ul>
+                    <li>V - Violet</li>
+                    <li>I - Indigo</li>
+                    <li>B - Blue</li>
+                    <li>G - Green</li>
+                    <li>Y - Yellow</li>
+                    <li>O - Orange</li>
+                    <li>R - Red</li>
+                </ul>
+            </div>
+
+            <div class="color-wheel"></div>
+
+            <div class="interactive-demo">
+                <h3>🎨 Color Mixing Experiment</h3>
+                <button class="demo-button" onclick="mixColors('red', 'blue')">Red + Blue</button>
+                <button class="demo-button" onclick="mixColors('red', 'green')">Red + Green</button>
+                <button class="demo-button" onclick="mixColors('blue', 'green')">Blue + Green</button>
+                <div id="color-result" style="margin-top: 20px; padding: 20px; border-radius: 10px;"></div>
+            </div>
+        </section>
+
+        <section class="section" id="atmospheric">
+            <h2>🌅 Atmospheric Refraction</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>🌅 Advanced Sunrise & Delayed Sunset</h3>
+                    <p>Due to atmospheric refraction, we see the sun 2 minutes before actual sunrise and 2 minutes after actual sunset.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>⭐ Twinkling of Stars</h3>
+                    <p>Stars twinkle due to continuous refraction of light through changing air layers in the atmosphere.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🌙 Why Planets Don't Twinkle</h3>
+                    <p>Planets appear as disks (not point sources) so the twinkling effect gets averaged out.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="scattering">
+            <h2>🌈 Scattering of Light</h2>
+
+            <div class="key-point">
+                <h3>🔵 Why Sky is Blue?</h3>
+                <p><strong>Rayleigh Scattering:</strong> Blue light has shorter wavelength and gets scattered more than red light.</p>
+                <div class="formula-box">
+                    Scattering ∝ 1/λ⁴<br>
+                    (Inversely proportional to fourth power of wavelength)
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>🌅 Red Sunrise/Sunset</h3>
+                    <p>During sunrise/sunset, light travels longer path. Blue light gets scattered away, only red light reaches us.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>☁️ White Clouds</h3>
+                    <p>Water droplets in clouds are larger than wavelength of light, so all colors scatter equally making clouds appear white.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section quiz-section" id="quiz">
+            <h2>🧠 Test Your Knowledge</h2>
+            
+            <div class="quiz-question">
+                <h3>Q1: What is the power of accommodation?</h3>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A) Ability to see colors</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">B) Ability to see in dark</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">C) Ability to change focal length of lens</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D) Ability to see distant objects</div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Q2: Myopia is corrected using:</h3>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A) Convex lens</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">B) Concave lens</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">C) Bifocal lens</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D) No lens needed</div>
+            </div>
+
+            <div class="quiz-question">
+                <h3>Q3: Sky appears blue due to:</h3>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">A) Reflection of light</div>
+                <div class="quiz-option" onclick="checkAnswer(this, true)">B) Scattering of light</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">C) Refraction of light</div>
+                <div class="quiz-option" onclick="checkAnswer(this, false)">D) Dispersion of light</div>
+            </div>
+
+           <div class="interactive-demo">
+                <h3>🎯 Quick Facts Challenge</h3>
+                <button class="demo-button" onclick="showRandomFact()">Show Random Fact</button>
+                <div id="random-fact" style="margin-top: 20px; font-size: 18px;"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📝 Important Formulas & Values</h2>
+            
+            <div class="grid">
+                <div class="formula-box">
+                    <strong>Power of Lens</strong><br>
+                    P = 1/f<br>
+                    Unit: Dioptre (D)
+                </div>
+                
+                <div class="formula-box">
+                    <strong>Near Point</strong><br>
+                    Normal eye: 25 cm<br>
+                    Also called least distance of distinct vision
+                </div>
+                
+                <div class="formula-box">
+                    <strong>Far Point</strong><br>
+                    Normal eye: Infinity<br>
+                    Maximum distance for clear vision
+                </div>
+                
+                <div class="formula-box">
+                    <strong>VIBGYOR Order</strong><br>
+                    Violet, Indigo, Blue, Green<br>
+                    Yellow, Orange, Red
+                </div>
+            </div>
+        </section>
+    </div>
 
     <script>
-        function toggleMode() {
-            document.body.classList.toggle('dark');
-            updateDots();
+        // Smooth scrolling to sections
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth' 
+            });
         }
 
-        function toggleSideNav() {
-            const sideNav = document.querySelector('.side-nav');
-            sideNav.classList.toggle('open');
-            if (sideNav.classList.contains('open')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
+        // Demonstrate focusing action
+        function demonstrateFocusing() {
+            const demo = document.getElementById('focusing-demo');
+            const messages = [
+                '🔍 For near objects: Lens becomes thick (more curved)',
+                '👀 For far objects: Lens becomes thin (less curved)',
+                '💪 Ciliary muscles control lens shape',
+                '🎯 This automatic adjustment is accommodation!'
+            ];
+            
+            let index = 0;
+            demo.innerHTML = messages[index];
+            
+            const interval = setInterval(() => {
+                index++;
+                if (index < messages.length) {
+                    demo.innerHTML = messages[index];
+                } else {
+                    clearInterval(interval);
+                }
+            }, 2000);
+        }
+
+        // Show vision defects
+        function showDefect(defectType) {
+            const demo = document.getElementById('defect-demo');
+            const defects = {
+                myopia: {
+                    title: '😵 Myopia (Nearsightedness)',
+                    description: 'Image forms BEFORE retina. Use CONCAVE lens to diverge light.',
+                    color: '#ffcccb'
+                },
+                hypermetropia: {
+                    title: '😤 Hypermetropia (Farsightedness)', 
+                    description: 'Image forms BEHIND retina. Use CONVEX lens to converge light.',
+                    color: '#add8e6'
+                },
+                presbyopia: {
+                    title: '👴 Presbyopia (Old-age vision)',
+                    description: 'Loss of accommodation. Use BIFOCAL lenses for both near and far vision.',
+                    color: '#dda0dd'
+                }
+            };
+            
+            const defect = defects[defectType];
+            demo.innerHTML = `
+                <div style="background: ${defect.color}; padding: 20px; border-radius: 10px; color: #333;">
+                    <h4>${defect.title}</h4>
+                    <p>${defect.description}</p>
+                </div>
+            `;
+        }
+
+        // Color mixing experiment
+        function mixColors(color1, color2) {
+            const result = document.getElementById('color-result');
+            const mixtures = {
+                'red-blue': { color: 'purple', name: 'Purple (Magenta)' },
+                'red-green': { color: 'yellow', name: 'Yellow' },
+                'blue-green': { color: 'cyan', name: 'Cyan' }
+            };
+            
+            const key = `${color1}-${color2}`;
+            const mixture = mixtures[key];
+            
+            if (mixture) {
+                result.style.backgroundColor = mixture.color;
+                result.innerHTML = `
+                    <h4>🎨 ${color1.toUpperCase()} + ${color2.toUpperCase()} = ${mixture.name}</h4>
+                    <p>This is additive color mixing - how light colors combine!</p>
+                `;
             }
         }
 
-        // Carousel functionality
-        const carouselInner = document.querySelector('.carousel-inner');
-        const topics = document.querySelectorAll('.topic-content');
-        const prevBtn = document.querySelector('.prev');
-        const nextBtn = document.querySelector('.next');
-        const dotsContainer = document.querySelector('.carousel-dots');
-        let currentIndex = 0;
-
-        // Create dots
-        topics.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                currentIndex = index;
-                updateCarousel();
+        // Quiz functionality
+        function checkAnswer(element, isCorrect) {
+            const options = element.parentNode.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt === element) {
+                    opt.classList.add(isCorrect ? 'correct' : 'wrong');
+                } else if (!opt.classList.contains('wrong')) {
+                    opt.style.opacity = '0.5';
+                }
             });
-            dotsContainer.appendChild(dot);
+            
+            if (isCorrect) {
+                element.innerHTML += ' ✅ Correct!';
+            } else {
+                element.innerHTML += ' ❌ Wrong!';
+                // Show correct answer
+                const correctOption = Array.from(options).find(opt => 
+                    opt.getAttribute('onclick').includes('true')
+                );
+                if (correctOption) {
+                    correctOption.classList.add('correct');
+                    correctOption.innerHTML += ' ✅ Correct Answer';
+                }
+            }
+        }
+
+        // Random facts
+        function showRandomFact() {
+            const facts = [
+                '👁️ Human eye can distinguish about 10 million colors!',
+                '⚡ Light travels from eye to brain in just 1/10th of a second!',
+                '🦅 Eagles have 4-8 times sharper vision than humans!',
+                '🌈 Rainbow has infinite colors, we just see 7 main ones!',
+                '🔵 Blue light has highest energy in visible spectrum!',
+                '❤️ Your iris is as unique as your fingerprint!',
+                '👶 Babies are born with blue eyes that may change color!',
+                '🌙 Human eye can see a candle flame 30 miles away in darkness!'
+            ];
+            
+            const randomFact = facts[Math.floor(Math.random() * facts.length)];
+            const factDiv = document.getElementById('random-fact');
+            factDiv.innerHTML = `<div style="background: white; padding: 15px; border-radius: 10px; color: #333;">${randomFact}</div>`;
+        }
+
+        // Add some dynamic animations on load
+        window.addEventListener('load', function() {
+            // Animate sections on scroll
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.8s ease-in';
+                    }
+                });
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         });
 
-        function updateDots() {
-            document.querySelectorAll('.dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
+        // Add floating particles effect
+        function createParticles() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+            
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = '10px';
+                particle.style.height = '10px';
+                particle.style.borderRadius = '50%';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.opacity = '0.6';
+                particle.style.animation = `float ${3 + Math.random() * 2}s ease-in-out infinite`;
+                particle.style.zIndex = '-1';
+                particle.style.pointerEvents = 'none';
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Create floating animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px) rotate(0deg); }
+                33% { transform: translateY(-20px) rotate(120deg); }
+                66% { transform: translateY(10px) rotate(240deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize particles after page load
+        setTimeout(createParticles, 1000);
+
+        // Interactive ray diagram
+        function createRayDiagram() {
+            const rayDiagrams = document.querySelectorAll('.ray-diagram');
+            rayDiagrams.forEach(diagram => {
+                // Create animated rays
+                for (let i = 0; i < 3; i++) {
+                    const ray = document.createElement('div');
+                    ray.className = 'ray';
+                    ray.style.top = (40 + i * 20) + '%';
+                    ray.style.left = '10%';
+                    ray.style.animationDelay = i * 0.5 + 's';
+                    diagram.appendChild(ray);
+                }
             });
         }
 
-        function updateCarousel() {
-            carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-            updateDots();
+        // Call ray diagram function
+        setTimeout(createRayDiagram, 500);
+
+        // Add interactive hover effects for cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05) rotateY(5deg)';
+                    this.style.boxShadow = '0 15px 40px rgba(0,0,0,0.2)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) rotateY(0deg)';
+                    this.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                });
+            });
+        });
+
+        // Eye blinking animation for fun
+        function addBlinkingEye() {
+            const header = document.querySelector('header');
+            const eyeIcon = header.querySelector('h1');
+            
+            setInterval(() => {
+                eyeIcon.style.transform = 'scaleY(0.1)';
+                setTimeout(() => {
+                    eyeIcon.style.transform = 'scaleY(1)';
+                }, 100);
+            }, 5000);
         }
 
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex === 0) ? topics.length - 1 : currentIndex - 1;
-            updateCarousel();
-        });
+        setTimeout(addBlinkingEye, 2000);
 
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex === topics.length - 1) ? 0 : currentIndex + 1;
-            updateCarousel();
-        });
+        // Progressive content loading
+        function revealContent() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.opacity = '0';
+                    section.style.transform = 'translateY(50px)';
+                    section.style.transition = 'all 0.8s ease';
+                    
+                    setTimeout(() => {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        }
 
-        // Auto-update dots on dark/light mode toggle
-        document.querySelector('.side-nav button').addEventListener('click', updateDots);
+        // Initialize progressive loading
+        setTimeout(revealContent, 1000);
+
+        // Add sound effects (visual feedback)
+        function addClickFeedback() {
+            const buttons = document.querySelectorAll('.demo-button, .nav-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255,255,255,0.6)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = '50%';
+                    ripple.style.top = '50%';
+                    ripple.style.width = '20px';
+                    ripple.style.height = '20px';
+                    ripple.style.marginLeft = '-10px';
+                    ripple.style.marginTop = '-10px';
+                    
+                    this.style.position = 'relative';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        }
+
+        // Add ripple animation
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+
+        // Initialize click feedback
+        setTimeout(addClickFeedback, 500);
+
+        // Eye tracking simulation (fun feature)
+        let eyeTracker = null;
+        function startEyeTracking() {
+            const eyeElements = document.querySelectorAll('.eye-diagram');
+            
+            document.addEventListener('mousemove', function(e) {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                
+                eyeElements.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const eyeX = rect.left + rect.width / 2;
+                    const eyeY = rect.top + rect.height / 2;
+                    
+                    const angle = Math.atan2(mouseY - eyeY, mouseX - eyeX);
+                    const distance = Math.min(Math.hypot(mouseX - eyeX, mouseY - eyeY) / 100, 1);
+                    
+                    eye.style.transform = `translate(${Math.cos(angle) * distance * 5}px, ${Math.sin(angle) * distance * 3}px)`;
+                });
+            });
+        }
+
+        // Initialize eye tracking
+        setTimeout(startEyeTracking, 1500);
+
+        // Add educational tooltips
+        function addTooltips() {
+            const tooltipElements = [
+                { selector: 'h2', text: 'Click to expand section details!' },
+                { selector: '.formula-box', text: 'Important formula - remember this!' },
+                { selector: '.color-wheel', text: 'This represents the visible light spectrum!' }
+            ];
+            
+            tooltipElements.forEach(item => {
+                const elements = document.querySelectorAll(item.selector);
+                elements.forEach(element => {
+                    element.title = item.text;
+                    element.style.cursor = 'help';
+                });
+            });
+        }
+
+        setTimeout(addTooltips, 800);
+
+        // Final initialization message
+        console.log('🎉 Human Eye and Colourful World chapter loaded successfully!');
+        console.log('👁️ Interactive features activated!');
+        console.log('🌈 Ready for learning!');
+
     </script>
 </body>
-<script src="script.js"></script>
 </html>
+          
